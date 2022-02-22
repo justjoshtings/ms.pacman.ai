@@ -1,8 +1,12 @@
 # ms.pacman.ai - Group3
 ## George Washington University, Cloud Computing - DATS6450, Spring 2022
 
+![pacman](https://i.guim.co.uk/img/media/8152f8ea7f06fd8ef5c68a3a594e6ac35dfd774b/0_342_800_480/master/800.jpg?width=620&quality=45&auto=format&fit=max&dpr=2&s=bdb69ce2ed723cc2d85b00143d8b3e28)
+
+
 # Project Description
 Train an AI agent to play Ms. Pacman from Atari 2600.
+
 
 ## Table of Contents
 1. [Team Members](#team_members)
@@ -30,6 +34,9 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 
 # <a name="background"></a>
 ## Background and Related Works
+* [Mnih et al. 2013 Playing Atari with Deep Reinforcement Learning](https://arxiv.org/abs/1312.5602)
+* [Deep Reinforcement Learning, DeepMind Blog Post 2016](https://deepmind.com/blog/article/deep-reinforcement-learning)
+* [MuZero: Mastering Go, Chess, Shogi, and Atari without Rules, DeepMind Blog Post 2020](https://deepmind.com/blog/article/muzero-mastering-go-chess-shogi-and-atari-without-rules)
 
 # <a name="topic_proposal"></a>
 ## Topic Proposal
