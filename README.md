@@ -14,7 +14,7 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 3. [Folder Structure](#structure)
 2. [Background and Related Works](#background)
 3. [Topic Proposal](#topic_proposal)
-4. [Datasets](#datasets)
+4. [Architecture](#architecture)
 5. [Presentation](#presentation)
 6. [Report](#report)
 7. [Additional Resources](#resources)
@@ -42,8 +42,10 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 # <a name="topic_proposal"></a>
 ## Topic Proposal
 
-# <a name="datasets"></a>
-## Datasets
+# <a name="architecture"></a>
+## Application Architecture
+
+## Learning Network Architecture
 
 # <a name="presentation"></a>
 ## Presentation
