@@ -43,9 +43,10 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 ## Topic Proposal
 
 # <a name="architecture"></a>
-## Application Architecture
+## Architecture
+#### Application Architecture
 
-## Learning Network Architecture
+#### Learning Network Architecture
 
 # <a name="presentation"></a>
 ## Presentation
