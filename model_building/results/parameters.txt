@@ -1,0 +1,5 @@
+# Dueling Runs Tracker:
+
+  # Dueling_DQN (Alpha) [Avg Score 616], 40mins: dueling, window = 5, shape = (105,105), gamma = commented out, warmup = 1000, exploration=10000, test_eps = 0.2
+  # Dueling_DQN_Round2 (Beta) [Avg Score 625.7] 35mins: dueling, window = 4, shape = (105,105), gamma = commented out, warmup = 2500, exploration=8000, test_eps = 0.1
+  # Duealing_DQN_Round3 (Charlie) [Avg Score 550 something]: dueling, window = 5, shape = (105,105), gamma = commented out, warmup = 3000, exploration=11000, total=15000, test_eps = 0.1, + extra dense layer of 128 - relu activation in second to last layer
