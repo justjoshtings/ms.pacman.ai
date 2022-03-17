@@ -35,7 +35,20 @@ tf.random.set_seed(random_seed)
 np.random.seed(random_seed)
 
 class DQNAgentService:
+    '''
+    Object to wrap DQN keras rl model object with gym atari environment.
+    '''
     def __init__(self, model_height, model_width, env_name, window_length, model_name, model_channels=0):
+        '''
+        Params:
+            self: instance of object
+            model_height (int) : height of game state images to input into DQN model, 105
+            model_width (int) : width of game state images to input into DQN model, 105
+            env_game (str) : env name of Atari game to load, 'ALE/MsPacman-v5']
+            window_length (int) : number of image game state stacks per input, 4
+            model_name (str) : name of model
+            model_channels (int) : 3 if want to use RGB, 0 if grayscale
+        '''
         self.model_height = model_height
         self.model_width = model_width
         self.env_name = env_name
@@ -50,6 +63,12 @@ class DQNAgentService:
     def build_model(self):
         '''
         Method to build model
+
+        Params:
+            self: instance of object
+
+        Returns:
+            self.model: keras model instance
         '''
         backend.clear_session()
 
@@ -78,10 +97,16 @@ class DQNAgentService:
         '''
         Method to build agent
 
-        Parameters:
-            model (keras model): keras model object
-            actions (list): list of of integers representing actions
-            window_length (int): integer represent the number of steps to stack as inputs from step time t, t-1, t-2, ...
+        Params:
+            self: instance of object
+            policy_value_max (float) : between 0 and 1 representing max value of epsilon in epsilon-greedy linear annealing
+            policy_value_min (float) : between 0 and 1 representing min value of epsilon in epsilon-greedy linear annealing
+            policy_value_test (float) : between 0 and 1 representing value of epsilon during testing
+            policy_nb_steps (int) : number of steps from start of training to decrease epsilon before setting epsilon to policy_value_min
+            enable_double_dqn (Boolean) : enable double dqn
+            enable_dueling_network (Boolean) : enable dueling dqn
+            dueling_type (str) : 'avg'
+            nb_steps_warmup (int) : number of steps to warmup before training
             replay_memory (SequentialMemory): if not None, replay memory to load into DQNAgent() for continuiation of training. Otherwise, create new SequentialMemory.
 
         Returns:
@@ -118,6 +143,10 @@ class DQNAgentService:
     def load_weights(self, model_path):
         '''
         Method to load weights
+
+        Params:
+            self: instance of object
+            model_path (str) : path of saved model weights
         '''
         self.dqn.compile(Adam(learning_rate=1e-4))
         try:
@@ -134,6 +163,10 @@ class DQNAgentService:
     def play(self, n_episodes, render_mode='human'):
         '''
         Method to play game with model iteratively (one step of env at a time)
+
+        Params:
+            self: instance of object
+            render_mode (str) : mode to render gameplay in ['human', 'rgb', None]
         '''
         self.env = gym.make(self.env_name, render_mode=render_mode) #render_mode = ('human','rgb',None)
 
@@ -175,6 +208,11 @@ class DQNAgentService:
         '''
         Method to play game with model iteratively, yielding observation, action after each iteration of game step.
         Acts as a generator.
+
+        Params:
+            self: instance of object
+            n_episodes (int) : number of episodes to play
+            render_mode (str) : mode to render gameplay in ['human', 'rgb', None]
         '''
         self.env = gym.make(self.env_name, render_mode=render_mode) #render_mode = ('human','rgb',None)
 
@@ -221,6 +259,13 @@ if __name__ == "__main__":
     print('Executing test play', __name__)
 
     def load_model(model_path, env_name):
+        '''
+        Method to load model
+
+        Params:
+            model_path (str) : path to model weights file
+            env_name (str) : name of game environment
+        '''
         # Model parameters
         window_length = 4
         input_shape = (105, 105)
@@ -233,7 +278,7 @@ if __name__ == "__main__":
 
         return window_length, input_shape, ms_pacman_model
 
-    path = './stream_test/flask_test/models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
+    path = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
     window_length, input_shape, ms_pacman_model = load_model(path, 'ALE/MsPacman-v5')
     ms_pacman_model.play(2)
 

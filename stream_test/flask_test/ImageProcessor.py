@@ -1,6 +1,6 @@
 """
 ImageProcessor.py
-Object to preprocess Atari env game states. To preprocess env images to grayscale and compress shape: https://github.com/keras-rl/keras-rl/blob/master/examples/dqn_atari.py
+Object to perform pre & post processing of Atari env game states. To preprocess env images to grayscale and compress shape: https://github.com/keras-rl/keras-rl/blob/master/examples/dqn_atari.py
 Imported into app.py, GameModels.py
 
 author: @justjoshtings
@@ -19,19 +19,47 @@ random_seed = 42
 np.random.seed(random_seed)
 
 class AtariProcessor(Processor):
-  def __init__(self, INPUT_SHAPE):
-    self.INPUT_SHAPE = INPUT_SHAPE
+  '''
+  AtariProcessor to perform pre-processing on game state images before input into model
+  '''
+  def __init__(self, input_shape):
+    '''
+    Params:
+      self: instance of object
+      input_shape (tuple) : (height,width) of desired input into DQN model, (105,105)
+    '''
+    self.input_shape = input_shape
 
   def process_observation(self, observation):
+    '''
+    Method to process observations from game state
+    
+    Params:
+      self: instance of object
+      observation (np.array) : game state observation
+
+    Returns:
+      processed observation (np.array)
+    '''
     assert observation.ndim == 3  # (height, width, channel)
     img = Image.fromarray(observation)
-    img = img.resize(self.INPUT_SHAPE).convert('L')  # resize and convert to grayscale
+    img = img.resize(self.input_shape).convert('L')  # resize and convert to grayscale
     processed_observation = np.array(img)
-    assert processed_observation.shape == self.INPUT_SHAPE
+    assert processed_observation.shape == self.input_shape
     
     return processed_observation.astype('uint8')  # saves storage in experience memory
 
   def process_state_batch(self, batch):
+    '''
+    Method to process game state batch
+    
+    Params:
+      self: instance of object
+      batch (np.array) : batch of game state observation
+
+    Returns:
+      processed batch (np.array)
+    '''
     # We could perform this processing step in `process_observation`. In this case, however,
     # we would need to store a `float32` array instead, which is 4x more memory intensive than
     # an `uint8` array. This matters if we store 1M observations.
@@ -39,18 +67,38 @@ class AtariProcessor(Processor):
     return processed_batch
 
   def process_reward(self, reward):
+    '''
+    Method to process reward
+    
+    Params:
+      self: instance of object
+      reward (int) : reward
+
+    Returns:
+      reward (int) : reward
+    '''
     return reward
-    # clipping rewards messes up the rewards output
-    # return np.clip(reward, -1., 1.)
 
   
 class PostProcessor:
+  '''
+  PostProcessor object to perform post-processing before broadcasting to live stream.
+  '''
   def __init__(self):
-    return
+    pass
   
   def broadcast_ready(self, observation, n_frame, fps):
     '''
     Method to perform post-processing on observation game state images to be broadcast ready.
+
+    Params:
+      self: instance of object
+      observation (np.array) : game state observation
+      n_frame (int) : current frame number in episode
+      fps (int) : most recent steps' fps
+
+    Returns:
+      observation_broadcast(np.array) : game state observation with post-processing
     '''
     observation_broadcast = observation
     observation_broadcast = cv2.resize(observation_broadcast, dsize=(700,600), interpolation=cv2.INTER_AREA)

@@ -23,6 +23,7 @@ def connect_webserver():
     PORT = socket_server_credentials.PORT
     HOST_IP = socket_server_credentials.HOST_IP
     ADDR = (HOST_IP, PORT)
+    print(f'Attempting Connection to IP:{HOST_IP}, PORT:{PORT}')
     payload_size = struct.calcsize("Q") #8 bytes size
 
     try:
@@ -86,15 +87,15 @@ def recvall(client_socket, packet_size):
     data_buffer = []
     # i = 0
     while packet_size:
-        # print('1',packet_size)
+        # print('Packet Size',packet_size)
         data = client_socket.recv(packet_size)
         print('Receiving', len(data))
-        # print('2',len(data))
+        # print('Data Length',len(data))
         if not data:
             break
         packet_size -= len(data)
         data_buffer.append(data)
-        # print('3',i)
+        # print('Number of Iterations per Recvall Call',i)
         # i+=1
     return b"".join(data_buffer)
 
@@ -106,13 +107,7 @@ def process_object(obj):
     Params:
         obj (python object, nparray): object to be procesed as image
     '''
-    # frame = obj.astype(np.uint8)
-    # cv2.imshow("Received", frame)
-    # cv2.waitKey(100)
-    # cv2.destroyAllWindows()
-
     # Encode image to JPEG then to bytes
-    print('got to here!!')
     frame = cv2.imencode('.JPEG', obj, [cv2.IMWRITE_JPEG_QUALITY,100])[1].tobytes()
     yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
