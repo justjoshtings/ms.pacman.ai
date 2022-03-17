@@ -1,6 +1,7 @@
 # Others
 stream_test/gym-results/
 stream_test/flask_test/socket_server_credentials.py
+*.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
