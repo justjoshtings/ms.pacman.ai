@@ -9,6 +9,8 @@ nat gateway so private subnet can connect to internet
 
 elastic IP for nat gateway
 
+s3 bucket (with access key and secret key) to be able to store results
+
 
 
 helpful resources:
@@ -23,9 +25,22 @@ The Way to Deep Learning on AWS - https://towardsdatascience.com/the-way-to-deep
 
 Running Python scripts on an AWS EC2 Instance | by Praneeth Kandula | Medium - https://towardsdatascience.com/the-way-to-deep-learning-on-aws-851fad7e5725
 
+how to keep a python script running when I close putty - Unix & Linux Stack Exchange - https://unix.stackexchange.com/questions/362115/how-to-keep-a-python-script-running-when-i-close-putty
+
+Tmux Cheat Sheet & Quick Reference - https://tmuxcheatsheet.com/
+
 
 
 other stuff:
+
+sudo yum update before you start
+
+want to close the session and still have the code run?: sudo yum install tmux
+to create a new session you can come back to: tmux
+after you close putty/your terminal, the python code will still be running
+to come back to the session you were working on: tmux attach
+to list all current sessions: tmux ls
+to kill a session: tmux kill-session
 
 use 'source activate tensorflow2_p38' once you get into the gpu instance in order to activate the gpu. It will prompt you. It comes with python built in.
 
