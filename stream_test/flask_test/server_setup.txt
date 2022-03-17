@@ -1,0 +1,23 @@
+sudo apt update
+sudo apt install python3-pip
+
+$ create swap file of 512 MB
+dd if=/dev/zero of=/swapfile bs=1024 count=524288
+
+$ modify permissions
+chown root:root /swapfile
+chmod 0600 /swapfile
+
+$ setup swap area
+mkswap /swapfile
+
+$ turn swap on
+swapon /swapfile
+
+
+pip3 install -r requirements.txt
+pip3 install numpy
+pip3 install opencv-python
+pip3 install flask
+pip install tensorflow --ignore-installed --user
+sudo apt install libgl1-mesa-glx

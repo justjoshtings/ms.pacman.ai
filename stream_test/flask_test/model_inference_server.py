@@ -22,8 +22,20 @@ import copy
 
 from GameModels import DQNAgentService
 from ImageProcessor import PostProcessor
-import socket_server_credentials  
+import socket_server_credentials
 
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(0)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
 
 def start():
     '''
@@ -32,7 +44,11 @@ def start():
     PORT = socket_server_credentials.PORT
     HOST_NAME = socket.gethostname()
     HOST_IP = socket.gethostbyname(HOST_NAME)
+    HOST_IP = get_ip()
+    print(HOST_IP)
     ADDR = (HOST_IP, PORT)
+
+    print(PORT)
 
     print("[STARTING] Sever is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
