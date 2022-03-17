@@ -1,19 +1,19 @@
-#flask_test
+# flask_test
 
 ## Development tests of webserver/model inference server, connection to Flask app, live-streaming, and gameplay rendering.
 
 ## Contents
-1. models: Save model weights here.
-2. templates: Html templates for Flask testing app.
-3. app.py: Flask app.
-4. GameModels.py: Reinforcement Learning Agent object. Imported into app.py.
-5. ImageProcessor.py: Object to perform pre & post preprocessing of Atari env game states. Imported into app.py, GameModels.py.
-6. model_inference_server.py: Server side logic to handle model inference from client web_server.py Delivers frame by frame of model's playthrough to the web_server.py through TCP/IP connection.
-7. socket_server_credentials_template.py: Template to store credentials, port numbers, and IP addresses.
-8. socket_server_credentials.py: Store credentials, port numbers, and IP addresses. Use socket_server_credentials_template.py as a template. DO NOT expose to web!
-9. web_server.py: Client side logic to receive frame by frame of model's playthrough from model_inference_server.py through TCP/IP connection. Serves image stream through flask app.py.
-10. model_inference_server_setup.sh: Execute in model inference server to setup model inference dependencies and environment.
-11. web_server_setup.sh: Execute in web server to setup web server dependencies and environment.
+1. **models**: Save model weights here.
+2. **templates**: Html templates for Flask testing app.
+3. **app.py**: Flask app.
+4. **GameModels.py**: Reinforcement Learning Agent object. Imported into app.py.
+5. **ImageProcessor.py**: Object to perform pre & post preprocessing of Atari env game states. Imported into app.py, GameModels.py.
+6. **model_inference_server.py**: Server side logic to handle model inference from client web_server.py Delivers frame by frame of model's playthrough to the web_server.py through TCP/IP connection.
+7. **socket_server_credentials_template.py**: Template to store credentials, port numbers, and IP addresses.
+8. **socket_server_credentials.py**: Store credentials, port numbers, and IP addresses. Use socket_server_credentials_template.py as a template. DO NOT expose to web!
+9. **web_server.py**: Client side logic to receive frame by frame of model's playthrough from model_inference_server.py through TCP/IP connection. Serves image stream through flask app.py.
+10. **model_inference_server_setup.sh**: Execute in model inference server to setup model inference dependencies and environment.
+11. **web_server_setup.sh**: Execute in web server to setup web server dependencies and environment.
 
 ## Setup
 #### Model Inference Server
