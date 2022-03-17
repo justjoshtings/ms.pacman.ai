@@ -32,7 +32,7 @@ Update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_c
 python3 model_inference_server.py
 ```
 
-## Web Server
+#### Web Server
 * Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for receiving live-stream from model inference server. Also ensure proper inbound/outbound ports for Flask app and HTTP/HTTPS connections.
 
 ```
