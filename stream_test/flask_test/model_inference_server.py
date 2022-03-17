@@ -45,16 +45,13 @@ def start():
     HOST_NAME = socket.gethostname()
     HOST_IP = socket.gethostbyname(HOST_NAME)
     HOST_IP = get_ip()
-    print(HOST_IP)
     ADDR = (HOST_IP, PORT)
-
-    print(PORT)
 
     print("[STARTING] Sever is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
     server.listen()
-    print(f"[LISTENING] Server listening on {HOST_IP}")
+    print(f"[LISTENING] Server listening on IP: {HOST_IP} and PORT: {PORT}")
     
     while True:
         conn, addr = server.accept()
@@ -83,6 +80,7 @@ def handle_client(conn, addr):
                 print('Sending',len(message))
                 conn.sendall(message)
 
+            # For testing, send static
             # for i in range(100):
             #     img = np.random.randint(0,255,size=(400,400))
             #     serialise_img = pickle.dumps(img)
@@ -113,9 +111,8 @@ def load_model(model_path, env_name):
     return window_length, input_shape, ms_pacman_model
 
 def stream_gameplay():
-    # print('Parameters:',params)
     
-    MODEL_WEIGHTS_PATH = './stream_test/flask_test/models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
+    MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
     GAME_ENV_NAME = 'ALE/MsPacman-v5'
 
     # Load model and environment
@@ -146,9 +143,6 @@ def stream_gameplay():
         
         yield observation_broadcast
         
-        # Encode image to JPEG then to bytes
-        # frame = cv2.imencode('.JPEG', observation_broadcast, [cv2.IMWRITE_JPEG_QUALITY,100])[1].tobytes()
-        
         # Maintain fps of fps_maintain
         processing_end_time = time.time()
         processing_time = processing_end_time - start_time
@@ -158,8 +152,6 @@ def stream_gameplay():
 
         time.sleep(sleep_time)
 
-        # yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        
         frame_end_time = time.time()
         n_frames.append(frame_end_time-start_time)
         start_time = time.time()
