@@ -58,8 +58,6 @@ run the following in your ec2 before you start:
 
 pip install gym gym[atari,accept-rom-license]==0.22.0
 
-pip install ale_py (i forgot to check if you can skip this, think you can)
-
 pip install pygame
 
 pip install keras-rl2
