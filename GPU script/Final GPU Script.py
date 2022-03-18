@@ -312,8 +312,8 @@ import boto3
 
 # This is my access and secret key for Josh's account
 
-ACCESS_KEY = # access key here
-SECRET_KEY = # secret key here
+ACCESS_KEY =  'access key here'
+SECRET_KEY =  'secret key here'
 
 def upload_to_aws(local_file, bucket, s3_file):
     s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY,
@@ -330,7 +330,7 @@ def upload_to_aws(local_file, bucket, s3_file):
 x = os.listdir()
 
 for i in x :
-    upload_to_aws(i, 'testbucket3122022', i)
+    upload_to_aws(i, 'insert_aws_bucket_name', i)
 
 print('Uploaded All Files')
 
