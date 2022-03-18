@@ -255,7 +255,7 @@ def train_model(model, actions, window_length, loading_from_step, total_steps_to
     #   memory = pickle.load(open(save_dir+memory_file, "rb"))
     # except (FileNotFoundError, EOFError):
     #   print("Memory file {} not found".format(save_dir+memory_file))
-    dqn = build_agent(model, actions, window_length, replay_memory=memory)
+    dqn = build_agent(model, actions, window_length)
     dqn.compile(opt)
     try:
       dqn.load_weights(save_dir+weights_file)
@@ -312,8 +312,8 @@ import boto3
 
 # This is my access and secret key for Josh's account
 
-ACCESS_KEY = 'AKIA4JWJQEDWDZJLMIOD'
-SECRET_KEY = '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'
+ACCESS_KEY = # access key here
+SECRET_KEY = # secret key here
 
 def upload_to_aws(local_file, bucket, s3_file):
     s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY,
