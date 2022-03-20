@@ -12,13 +12,12 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 1. [Team Members](#team_members)
 2. [How to Run](#instructions)
 3. [Folder Structure](#structure)
-2. [Background and Related Works](#background)
-3. [Topic Proposal](#topic_proposal)
-4. [Architecture](#architecture)
-5. [Presentation](#presentation)
-6. [Report](#report)
-7. [Additional Resources](#resources)
-8. [Licensing](#license)
+4. [Background and Related Works](#background)
+5. [Architecture](#architecture)
+6. [Presentation](#presentation)
+7. [Report](#report)
+8. [References](#references)
+9. [Licensing](#license)
 
 # <a name="team_members"></a>
 ## Team Members
@@ -34,10 +33,10 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 
 # <a name="background"></a>
 ## Background and Related Works
-* [Mnih et al. 2013 Playing Atari with Deep Reinforcement Learning](https://arxiv.org/abs/1312.5602)
-* [Deep Reinforcement Learning, DeepMind Blog Post 2016](https://deepmind.com/blog/article/deep-reinforcement-learning)
-* [Schrittwieser et al. 2020 Mastering Atari, Go, chess and shogi by planning with a learned model](https://www.nature.com/articles/s41586-020-03051-4.epdf?sharing_token=kTk-xTZpQOF8Ym8nTQK6EdRgN0jAjWel9jnR3ZoTv0PMSWGj38iNIyNOw_ooNp2BvzZ4nIcedo7GEXD7UmLqb0M_V_fop31mMY9VBBLNmGbm0K9jETKkZnJ9SgJ8Rwhp3ySvLuTcUr888puIYbngQ0fiMf45ZGDAQ7fUI66-u7Y%3D)
-* [MuZero: Mastering Go, Chess, Shogi, and Atari without Rules, DeepMind Blog Post 2020](https://deepmind.com/blog/article/muzero-mastering-go-chess-shogi-and-atari-without-rules)
+* Mnih et al. 2013 Playing Atari with Deep Reinforcement Learning<sup>4</sup>
+* Deep Reinforcement Learning, DeepMind Blog Post 2016<sup>11</sup>
+* Schrittwieser et al. 2020 Mastering Atari, Go, chess and shogi by planning with a learned model<sup>12</sup>
+* MuZero: Mastering Go, Chess, Shogi, and Atari without Rules, DeepMind Blog Post 2020<sup>13</sup>
 
 # <a name="topic_proposal"></a>
 ## Topic Proposal
@@ -54,11 +53,50 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 # <a name="report"></a>
 ## Report
 
-# <a name="resources"></a>
-## Additional Resources
-* [Reinforcement Learning in 3 Hours | Full Course using Python](https://www.youtube.com/watch?v=Mut_u40Sqz4)
-* [Deep Reinforcement Learning for Atari Games Python Tutorial | AI Plays Space Invaders](https://www.youtube.com/watch?v=hCeJeq8U0lo)
-* [Playing Atari with Deep Reinforcement Learning (Paper Explained)](https://www.youtube.com/watch?v=rFwQDDbYTm4)
+# <a name="references"></a>
+## References
+1. [OpenAI Gym](https://github.com/openai/gym)
+```
+@misc{1606.01540,
+  Author = {Greg Brockman and Vicki Cheung and Ludwig Pettersson and Jonas Schneider and John Schulman and Jie Tang and Wojciech Zaremba},
+  Title = {OpenAI Gym},
+  Year = {2016},
+  Eprint = {arXiv:1606.01540},
+}
+```
+2. [Arcade Learning Environment](https://github.com/mgbellemare/Arcade-Learning-Environment)
+```
+@Article{bellemare13arcade,
+    author = {{Bellemare}, M.~G. and {Naddaf}, Y. and {Veness}, J. and {Bowling}, M.},
+    title = {The Arcade Learning Environment: An Evaluation Platform for General Agents},
+    journal = {Journal of Artificial Intelligence Research},
+    year = "2013",
+    month = "jun",
+    volume = "47",
+    pages = "253--279",
+}
+```
+3. [Keras-RL](https://github.com/keras-rl/keras-rl)
+```
+@misc{plappert2016kerasrl,
+    author = {Matthias Plappert},
+    title = {keras-rl},
+    year = {2016},
+    publisher = {GitHub},
+    journal = {GitHub repository},
+    howpublished = {\url{https://github.com/keras-rl/keras-rl}},
+}
+```
+4. [Playing Atari with Deep Reinforcement Learning, Mnih et al., 2013](https://arxiv.org/abs/1312.5602)
+5. [Deep Reinforcement Learning with Double Q-learning, van Hasselt et al., 2015](https://arxiv.org/abs/1509.06461)
+6. [Continuous Deep Q-Learning with Model-based Acceleration, Gu et al., 2016](https://arxiv.org/abs/1603.00748)
+7. [Dueling Network Architectures for Deep Reinforcement Learning, Wang et al., 2016](https://arxiv.org/abs/1511.06581)
+8. [Prioritized Experience Replay, Schaul et al., 2016](https://arxiv.org/abs/1511.05952)
+9. [Rainbow: Combining Improvements in Deep Reinforcement Learning, Hessel et al., 2017](https://arxiv.org/abs/1710.02298)
+10. [Noisy Networks for Exploration, Fortunato et al., 2018](https://arxiv.org/abs/1706.10295)
+11. [Deep Reinforcement Learning, DeepMind Blog Post 2016](https://deepmind.com/blog/article/deep-reinforcement-learning)
+12. [Schrittwieser et al. 2020 Mastering Atari, Go, chess and shogi by planning with a learned model](https://www.nature.com/articles/s41586-020-03051-4.epdf?sharing_token=kTk-xTZpQOF8Ym8nTQK6EdRgN0jAjWel9jnR3ZoTv0PMSWGj38iNIyNOw_ooNp2BvzZ4nIcedo7GEXD7UmLqb0M_V_fop31mMY9VBBLNmGbm0K9jETKkZnJ9SgJ8Rwhp3ySvLuTcUr888puIYbngQ0fiMf45ZGDAQ7fUI66-u7Y%3D)
+13. [MuZero: Mastering Go, Chess, Shogi, and Atari without Rules, DeepMind Blog Post 2020](https://deepmind.com/blog/article/muzero-mastering-go-chess-shogi-and-atari-without-rules)
 
 # <a name="license"></a>
 ## Licensing

@@ -15,15 +15,15 @@ import struct
 import pickle
 from datetime import datetime
 
-import socket_server_credentials
-from Logger import MyLogger
+from MsPacmanAI.Logger import MyLogger
+from MsPacmanAI import socket_server_credentials
 
 
 def connect_webserver():
     '''
     Connect to webserver and process received message(s)
     '''
-    LOG_FILENAME = '../../logs/web_server.log'
+    LOG_FILENAME = '../logs/web_server.log'
 
     # Set up a specific logger with our desired output level
     mylogger = MyLogger(LOG_FILENAME)
