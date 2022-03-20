@@ -55,5 +55,32 @@ app.run(host='0.0.0.0', port=someport, debug=True, threaded=True)
 ```
 python3 app.py
 ```
+
+## To Run Locally
+
+* Launch Model Inference Server
+```
+cd ./ms.pacman.ai/stream_test/flask_test/
+python3 model_inference_server.py
+```
+
+* Edit socket_credentials.py with IP printed from model_inference_server.py. Also set desired PORT.
+
+* Ensure app.py
+```
+# in app.py
+app.run(debug=TRUE, threaded=TRUE)
+```
+
+* Launch app.py
+```
+python3 app.py
+```
+
+* Copy localhosted IP to browser
+```
+Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+```
+
 ## Simplified Server Communications Architecture
 ![server_comms](https://github.com/justjoshtings/ms.pacman.ai/blob/main/stream_test/flask_test/server_communications.jpg)
