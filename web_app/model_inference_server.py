@@ -21,10 +21,10 @@ import copy
 from datetime import datetime
 import atexit
 
-from Logger import MyLogger
-from GameModels import DQNAgentService
-from ImageProcessor import PostProcessor
-import socket_server_credentials
+from MsPacmanAI.Logger import MyLogger
+from MsPacmanAI.GameModels import DQNAgentService
+from MsPacmanAI.ImageProcessor import PostProcessor
+from MsPacmanAI import socket_server_credentials
 
 def get_ip():
     '''
@@ -51,7 +51,7 @@ def start():
     '''
     Start server listening procedure and passes connections to handle_client() with multithread.
     '''
-    LOG_FILENAME = '../../logs/model_inference_server.log'
+    LOG_FILENAME = '../logs/model_inference_server.log'
 
     # Set up a specific logger with our desired output level
     mylogger = MyLogger(LOG_FILENAME)
@@ -174,7 +174,7 @@ def stream_gameplay():
     
     MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
     GAME_ENV_NAME = 'ALE/MsPacman-v5'
-    CONTROLLER_PATH = '../../assets/controller/'
+    CONTROLLER_PATH = '../assets/controller/'
     broadcast_dimensions = (1000,500)
 
     # Load model and environment

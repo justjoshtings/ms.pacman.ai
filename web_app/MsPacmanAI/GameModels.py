@@ -22,7 +22,7 @@ from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy
 from rl.callbacks import ModelIntervalCheckpoint
 from rl.core import Processor
 
-from ImageProcessor import AtariProcessor
+from MsPacmanAI.ImageProcessor import AtariProcessor
 
 import gym
 import ale_py
