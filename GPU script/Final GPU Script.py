@@ -193,13 +193,13 @@ def build_agent(model, actions, window_length, replay_memory=None):
   Returns:
     dqn: dqn model
   '''
-  policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.1, nb_steps=8000) # For 1 million total steps, I think having the policy nb_steps around 600k is a good slope.
+  policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.1, nb_steps=600000) # For 1 million total steps, I think having the policy nb_steps around 600k is a good slope.
   processor = AtariProcessor()
   # If we want to load from saved memory
   if replay_memory:
     memory = replay_memory
   else:
-    memory = SequentialMemory(limit=100000, window_length=window_length)
+    memory = SequentialMemory(limit=500000, window_length=window_length)
     
   dqn = DQNAgent(model=model, memory=memory, policy=policy,
                 enable_double_dqn=False,
