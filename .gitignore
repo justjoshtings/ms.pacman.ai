@@ -1,10 +1,10 @@
 # Others
 stream_test/gym-results/
 stream_test/flask_test/socket_server_credentials.py
+stream_test_react/flask_test/socket_server_credentials.py
+stream_test_react/flask_test/node_modules/
+stream_test_react/gym-results/
 *.DS_Store
-
-# Logs
-*log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
