@@ -18,9 +18,9 @@ sudo apt install -y libgl1-mesa-glx
 pip3 install flask
 
 # create socket_server_credentials.py from socket_server_credentials_template.py and edit IP/PORTs
-cd ~/ms.pacman.ai/stream_test/flask_test/
+cd ~/ms.pacman.ai/web_app/MsPacmanAI/
 cp socket_server_credentials_template.py socket_server_credentials.py
 
-echo "Please update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_credentials.py"
+echo "Please update socket credentials in /ms.pacman.ai/web_app/MsPacmanAI/socket_server_credentials.py"
 
-echo "app.run(host='0.0.0.0', port='5000', debug=True,threaded=True)"
+echo "app.run(host='0.0.0.0', port='8080', debug=True,threaded=True)"

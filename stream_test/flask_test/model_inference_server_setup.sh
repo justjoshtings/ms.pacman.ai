@@ -28,7 +28,7 @@ echo "Please update socket credentials in ms.pacman.ai/stream_test/flask_test/so
 cd ~/
 git clone https://github.com/wau/keras-rl2.git
 cd ~/keras-rl2
-sed -i 's/tensorflow/tensorflow-cpu' setup.py
+sed -i 's/tensorflow/tensorflow-cpu/' setup.py
 #vim setup.py
 #change 'tensorflow' to 'tensorflow-cpu'
 pip3 install .
