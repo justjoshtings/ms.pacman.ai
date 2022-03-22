@@ -1,4 +1,5 @@
 # Others
+**/socket_server_credentials.*
 stream_test/gym-results/
 stream_test/flask_test/socket_server_credentials.py
 stream_test_react/flask_test/socket_server_credentials.py
