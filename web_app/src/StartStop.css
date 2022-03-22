@@ -1,0 +1,19 @@
+.btn:focus{
+    box-shadow: none !important;
+}
+
+.btn {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.start {
+    background-color: #FFE226 !important;
+    color: black !important;
+    border-style: solid !important;
+    border-radius: 5px !important;
+    border-color: #f94ab8 !important;
+    /* outline-style: solid !important;
+    outline-color: #f94ab8 !important;
+    outline-width: 7px !important; */
+}

@@ -1,0 +1,38 @@
+.agent {
+    font-size: 60px;
+    color: #F5F5F5;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.words {
+    font-family: "crackman";
+    font-style: italic;
+}
+.pacman {
+    color: #f94ab8;
+}
+
+.dqn {
+    color:#1344e9;
+}
+
+.logo {
+    width: 100%;
+    border-radius: 27px;
+}
+
+.names {
+    color: #F5F5F5;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+@font-face {
+    font-family: "crackman";
+    src: local("crackman"),
+    url(./fonts/crackman/crackman.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "crackman-back";
+    src: local("crackman-back"),
+    url('./fonts/crackman/crackman back.ttf') format("truetype");
+}
