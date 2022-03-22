@@ -19,16 +19,16 @@ pip3 install Pillow
 sudo apt install -y libgl1-mesa-glx
 
 # create socket_server_credentials.py from socket_server_credentials_template.py and edit IP/PORTs
-cd ~/ms.pacman.ai/stream_test/flask_test/
+cd ~/ms.pacman.ai/web_app/MsPacmanAI/
 cp socket_server_credentials_template.py socket_server_credentials.py
 
-echo "Please update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_credentials.py"
+echo "Please update socket credentials in /ms.pacman.ai/web_app/MsPacmanAI/socket_server_credentials.py"
 
 # Install Keras-rl2 without full tensorflow GPU
 cd ~/
 git clone https://github.com/wau/keras-rl2.git
 cd ~/keras-rl2
-sed -i 's/tensorflow/tensorflow-cpu' setup.py
+sed -i 's/tensorflow/tensorflow-cpu/' setup.py
 #vim setup.py
 #change 'tensorflow' to 'tensorflow-cpu'
 pip3 install .

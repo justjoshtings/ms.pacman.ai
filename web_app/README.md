@@ -18,7 +18,7 @@
 
 ## Setup
 #### Model Inference Server
-Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for transmitting live-stream to web server. 
+Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for transmitting live-stream to web server.
 
 ```
 git clone https://github.com/justjoshtings/ms.pacman.ai.git
@@ -32,6 +32,27 @@ Update socket credentials in ms.pacman.ai/web_app/socket_server_credentials.py
 ```
 python3 model_inference_server.py
 ```
+
+Consider using a (public-bastion | private subnet | NAT gateway) servers setup for better privacy and security. Sample setup example:
+
+1. Create private EC2 in private subnet.
+2. Create public EC2 to act as bastion to ssh into private EC2.
+3. Create elastic IP.
+4. Create NatGateway and allocated elastic IP.
+5. [Set up route tables of private subnet.](https://docs.axway.com/bundle/SecureTransport_54_on_AWS_InstallationGuide_allOS_en_HTML5/page/Content/AWS/securitygroups/st_nat_gateway_subnet_routing.htm)
+6. SSH Agent forward into bastion EC2.
+```
+ssh -A user@<bastion-IP-address>
+```
+7. SSH from bastion EC2 into private EC2.
+```
+ssh user@<instance-IP-address>
+```
+8. Test internet connection from private EC2.
+```
+ping google.com
+```
+9. Apply setup steps from above.
 
 #### Web Server
 * Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for receiving live-stream from model inference server. Also ensure proper inbound/outbound ports for Flask app and HTTP/HTTPS connections.
