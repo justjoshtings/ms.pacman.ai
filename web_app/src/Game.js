@@ -11,7 +11,7 @@ class Game extends Component {
     render(){
         console.log('rendered....')
         console.log('props -- ' + this.props.playing)
-        endpoint = window.location.href
+        var endpoint = window.location.href;
 
         if (this.props.playing) {
             return (

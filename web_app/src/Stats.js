@@ -7,7 +7,7 @@ class Stats extends Component {
     }
 
     render(){
-        endpoint = window.location.href
+        var endpoint = window.location.href;
         return (
             <div class = 'container'>
                 <img className = 'statsimg' src={endpoint+"/stats"}/>

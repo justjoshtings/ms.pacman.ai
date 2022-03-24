@@ -28,7 +28,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 # MODEL_WEIGHTS_PATH = './stream_test/flask_test/models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
 # GAME_ENV_NAME = 'ALE/MsPacman-v5'
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder = 'build', static_folder = 'build/static')
 @app.route('/')
 
 def index():
@@ -59,7 +59,7 @@ def show_stats():
     # output = io.BytesIO()
     # FigureCanvas(fig).print_png(output)
     # return Response(output.getvalue(), mimetype = 'image/png')
-    im = '~/ms.pacman.ai/tempfig.png'
+    im = 'tempfig.png'
     return send_file(im, mimetype='image/png')
 
 if __name__ == "__main__":
