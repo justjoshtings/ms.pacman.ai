@@ -7,9 +7,10 @@ class Stats extends Component {
     }
 
     render(){
+        endpoint = window.location.href
         return (
             <div class = 'container'>
-                <img className = 'statsimg' src="http://192.168.0.181:8080/stats"/>
+                <img className = 'statsimg' src={endpoint+"/stats"}/>
             </div>
         )
     }

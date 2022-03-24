@@ -11,10 +11,12 @@ class Game extends Component {
     render(){
         console.log('rendered....')
         console.log('props -- ' + this.props.playing)
+        endpoint = window.location.href
+
         if (this.props.playing) {
             return (
             <div class = 'container'>
-                <img className = 'game' src="http://192.168.0.181:8080/results"/>
+                <img className = 'game' src={endpoint+"/results"}/>
             </div>
             )
         }
