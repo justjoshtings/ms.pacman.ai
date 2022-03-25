@@ -240,6 +240,7 @@ class DQNAgentService:
 
             action = 0
             done = False
+            last_frame_game_over = 0
 
             # Setup sequence, Ms-Pac Man controller state should display 0
             prior_lives = 100000
@@ -249,7 +250,7 @@ class DQNAgentService:
 
             # Run the episode until we're done.
             while not done:
-                yield (observation, observation_deprocessed, action, done)
+                yield (observation, observation_deprocessed, action, done, last_frame_game_over)
 
                 action = self.dqn.forward(observation)
                 if self.dqn.processor is not None:
@@ -280,8 +281,12 @@ class DQNAgentService:
                     prior_lives = deepcopy(lives)
 
                     reward += r
+                    
                     if d:
-                        action = 0
+                        last_frame_game_over += 1
+                        yield (observation, observation_deprocessed, action, done, last_frame_game_over)
+                    
+                    if last_frame_game_over > 1:
                         done = True
                         break
                 

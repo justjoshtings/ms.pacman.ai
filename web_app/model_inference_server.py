@@ -167,6 +167,18 @@ def load_controller(controller_path, env):
 
     return action_controls
 
+def load_gameover_screen(game_over_path):
+    '''
+    Loads game over screen assets
+
+    Params:
+        game_over_path (str) : path to controller assets
+    
+    Returns:
+        gameover screen (np.array) : gameover screen
+    '''
+    return cv2.imread(game_over_path+'gameover_screen.png')
+
 def stream_gameplay():
     '''
     Yields frame by frame gameplay for each episode using trained agent.
@@ -176,6 +188,7 @@ def stream_gameplay():
     # MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
     GAME_ENV_NAME = 'ALE/MsPacman-v5'
     CONTROLLER_PATH = '../assets/controller/'
+    GAMEOVER_PATH = '../assets/gameover/'
     broadcast_dimensions = (1000,500)
 
     # Load model and environment
@@ -185,6 +198,10 @@ def stream_gameplay():
     # Load controller actions
     action_controls = load_controller(CONTROLLER_PATH, ms_pacman_model.env)
     MY_LOGGER.info(f"{datetime.now()} -- Loaded controller and actions.")
+
+    # Load gameover screen
+    gameover_screen = load_gameover_screen(GAMEOVER_PATH)
+    MY_LOGGER.info(f"{datetime.now()} -- Loaded gameover screen.")
 
     # Init objects to calculate and maintain fps
     n_frame = 1
@@ -198,7 +215,7 @@ def stream_gameplay():
 
     # Start gameplay
     MY_LOGGER.info(f"{datetime.now()} -- Starting Gameplay.")
-    for observation, observation_deprocessed, action, done in ms_pacman_model.play_gen():
+    for observation, observation_deprocessed, action, done, last_frame_game_over in ms_pacman_model.play_gen():
         
         # Calc most recent last_n_frames fps
         if len(n_frames) < last_n_frames:
@@ -210,7 +227,11 @@ def stream_gameplay():
         observation_broadcast = copy.deepcopy(observation_deprocessed)
         observation_broadcast = broadcast_processor.broadcast_ready(broadcast_dimensions, observation_broadcast, n_frame, fps, action, action_controls)
         
-        yield observation_broadcast
+        # Very last frame to yield game over screen
+        if last_frame_game_over > 0:
+            yield gameover_screen
+        else:
+            yield observation_broadcast
         
         # Maintain fps of fps_maintain
         processing_end_time = time.time()
