@@ -15,6 +15,10 @@ from tensorflow.keras.optimizers import Adam
 
 import numpy as np
 from copy import deepcopy
+import os
+
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from rl.agents import DQNAgent
 from rl.memory import SequentialMemory
@@ -22,7 +26,10 @@ from rl.policy import LinearAnnealedPolicy, EpsGreedyQPolicy
 from rl.callbacks import ModelIntervalCheckpoint
 from rl.core import Processor
 
-from MsPacmanAI.ImageProcessor import AtariProcessor
+try:
+    from ImageProcessor import AtariProcessor
+except ModuleNotFoundError:
+    from MsPacmanAI.ImageProcessor import AtariProcessor
 
 import gym
 import ale_py
@@ -124,19 +131,19 @@ class DQNAgentService:
         self.dueling_type = dueling_type
         self.nb_steps_warmup = nb_steps_warmup
 
-        self.policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.1, nb_steps=8000) # For 1 million total steps, I think having the policy nb_steps around 600k is a good slope.
+        self.policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.1, nb_steps=policy_nb_steps) # For 1 million total steps, I think having the policy nb_steps around 600k is a good slope.
         self.processor = AtariProcessor((self.model_height,self.model_width))
         # If we want to load from saved memory
         if replay_memory:
             self.memory = replay_memory
         else:
-            self.memory = SequentialMemory(limit=10000, window_length=self.window_length)
+            self.memory = SequentialMemory(limit=500000, window_length=self.window_length)
             
         self.dqn = DQNAgent(model=self.model, memory=self.memory, policy=self.policy,
                         enable_double_dqn=False,
                         enable_dueling_network=True, dueling_type='avg',
                         processor=self.processor,
-                        nb_actions=self.actions, nb_steps_warmup=2500 #nb_steps_warmup reduces instability of first few steps https://datascience.stackexchange.com/questions/46056/in-keras-library-what-is-the-meaning-of-nb-steps-warmup-in-the-dqnagent-objec
+                        nb_actions=self.actions, nb_steps_warmup=nb_steps_warmup #nb_steps_warmup reduces instability of first few steps https://datascience.stackexchange.com/questions/46056/in-keras-library-what-is-the-meaning-of-nb-steps-warmup-in-the-dqnagent-objec
                         )
         return self.dqn
 
@@ -166,13 +173,14 @@ class DQNAgentService:
 
         Params:
             self: instance of object
-            render_mode (str) : mode to render gameplay in ['human', 'rgb', None]
+            render_mode (str) : mode to render gameplay in ['human', 'rgb_array', None]
         '''
         self.env = gym.make(self.env_name, render_mode=render_mode) #render_mode = ('human','rgb',None)
 
         self.dqn.training = False
         action_repetition = 1
 
+        rewards_history = []
         for i in range(n_episodes):
             episode_reward = 0.
             observation = deepcopy(self.env.reset())
@@ -203,6 +211,9 @@ class DQNAgentService:
                 episode_reward += reward
 
                 self.dqn.step += 1
+            
+            rewards_history.append(episode_reward)
+        return rewards_history
 
     def play_gen(self, n_episodes=1, render_mode=None):
         '''
@@ -296,15 +307,53 @@ if __name__ == "__main__":
         
         ms_pacman_model = DQNAgentService(model_height=input_shape[0], model_width=input_shape[1], env_name=env_name, window_length=window_length, model_name='Final_Model', model_channels=0)
         ms_pacman_model.build_model()
-        ms_pacman_model.build_agent(policy_value_max=1., policy_value_min=.1, policy_value_test=.1, policy_nb_steps=8000, 
+        ms_pacman_model.build_agent(policy_value_max=1., policy_value_min=.1, policy_value_test=.2, policy_nb_steps=600000, 
                             enable_double_dqn=False, enable_dueling_network=True, dueling_type='avg', nb_steps_warmup=2500)
+        # ms_pacman_model.build_agent(policy_value_max=1., policy_value_min=.1, policy_value_test=.1, policy_nb_steps=8000, 
+        #                     enable_double_dqn=False, enable_dueling_network=True, dueling_type='avg', nb_steps_warmup=2500)
         ms_pacman_model.load_weights(model_path)
 
         return window_length, input_shape, ms_pacman_model
+    
+    def plot_histogram(array, title, filepath):
+        try:
+            array = array.astype('float128')
+            q25, q75 = np.percentile(array, [25, 75])
+            bin_width = round(2 * (q75 - q25) * len(array) ** (-1/3))
+            bins = round((array.max() - array.min()) / bin_width)
+            print("Freedman–Diaconis number of bins:", bins)
+        except ValueError:
+            bins = 1
+        except OverflowError:
+            bins = round(array.shape[0]/3)
 
-    path = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
-    window_length, input_shape, ms_pacman_model = load_model(path, 'ALE/MsPacman-v5')
-    ms_pacman_model.play(2)
+        ax = sns.displot(array, bins=bins, kde=True)
+        ax.set(xlabel='Game Scores', ylabel='Count', title=title)
+        ax.fig.set_size_inches(12,6)
+        plt.savefig(filepath+title+'.png')
+        # plt.show()
+
+        print("Min Score: {}".format(array.min()))
+        print("Max Score: {}".format(array.max()))
+        print("Avg Score: {}".format(array.mean()))
+        print("Std Score: {}".format(array.std()))
+
+    # Make scores results directory; 
+    directory = os.path.dirname('../model_building/results/Final_Model/')
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    for model_iteration in range(40000,1000000,40000):
+        n_episodes = 100
+        path = f'./models/Dueling_DQN_Beta_weights_{model_iteration}.h5f'
+        window_length, input_shape, ms_pacman_model = load_model(path, 'ALE/MsPacman-v5')
+        rewards_history = ms_pacman_model.play(n_episodes, render_mode='rgb_array')
+
+        print(f'Model Iteration {model_iteration} Mean Rewards over {n_episodes} Episodes: ', np.mean(rewards_history))
+        
+        final_model_scores_file = f'../model_building/results/Final_Model/{model_iteration}_scores.txt'
+        np.savetxt(final_model_scores_file, rewards_history, fmt='%d')
+        plot_histogram(np.array(rewards_history), f'Game Scores of 100 Games - Final Model - Training Step Iteration {model_iteration}', '../model_building/results/Final_Model/')
 
     # for ob, action, done in ms_pacman_model.play_gen():
     #     print(ob,action,done)

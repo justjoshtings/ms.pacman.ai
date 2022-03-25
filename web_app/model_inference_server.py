@@ -146,7 +146,7 @@ def load_model(model_path, env_name):
     
     ms_pacman_model = DQNAgentService(model_height=input_shape[0], model_width=input_shape[1], env_name=env_name, window_length=window_length, model_name='Final_Model', model_channels=0)
     ms_pacman_model.build_model()
-    ms_pacman_model.build_agent(policy_value_max=1., policy_value_min=.1, policy_value_test=.1, policy_nb_steps=8000, 
+    ms_pacman_model.build_agent(policy_value_max=1., policy_value_min=.1, policy_value_test=.2, policy_nb_steps=600000, 
                         enable_double_dqn=False, enable_dueling_network=True, dueling_type='avg', nb_steps_warmup=2500)
     ms_pacman_model.load_weights(model_path)
 
@@ -172,7 +172,8 @@ def stream_gameplay():
     Yields frame by frame gameplay for each episode using trained agent.
     '''
     
-    MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
+    MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Beta_weights_880000.h5f'
+    # MODEL_WEIGHTS_PATH = './models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
     GAME_ENV_NAME = 'ALE/MsPacman-v5'
     CONTROLLER_PATH = '../assets/controller/'
     broadcast_dimensions = (1000,500)
