@@ -4,8 +4,8 @@ import os
 s3 = boto3.resource(
     service_name='s3',
     region_name='us-east-1',
-    aws_access_key_id='AKIA4JWJQEDWJAK4NKNS',
-    aws_secret_access_key='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'
+    aws_access_key_id='',
+    aws_secret_access_key=''
 )
 
 # Print out bucket names
