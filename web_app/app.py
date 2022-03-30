@@ -9,24 +9,11 @@ created: 3/16/2022
 from unittest import result
 from flask import Flask, render_template, request, Response, send_file
 
-# import cv2
-
-# from time import sleep
-# import time
-
-# import copy
-
-# from GameModels import DQNAgentService
-# from ImageProcessor import PostProcessor
-
 from web_server import connect_webserver
 from stats import make_plot
 from stats import load_plot
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-
-# MODEL_WEIGHTS_PATH = './stream_test/flask_test/models/Dueling_DQN_Round2_weights_final_steps15000.h5f'
-# GAME_ENV_NAME = 'ALE/MsPacman-v5'
 
 app = Flask(__name__, template_folder = 'build', static_folder = 'build/static')
 @app.route('/')
@@ -43,10 +30,39 @@ def res():
 
 @app.route('/results')
 def video_feed():
+    from time import sleep
     global result
     params = result
-    # return Response(stream_gameplay(params), mimetype='multipart/x-mixed-replace; boundary=frame')
-    return Response(connect_webserver(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+    def intermediate_stream_feed():
+        '''
+        Start connect_webserver() generator to separate score from frame
+        Feed frame into Response() while set score as a global variable to access later on
+        '''
+        for frame in connect_webserver():
+            global score
+            score = int(str(frame[-10:]).split('score')[-1][:-1])
+            yield frame
+
+    response = Response(intermediate_stream_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+    # Initialize random scores
+    global score
+    score = -1
+
+    @response.call_on_close
+    def on_close():
+        '''
+        Does some action after response is returned and before exiting function video_feed().
+        Here we pass the score into some other function for continued processing.
+        '''
+        do_something_with_score(score)
+    
+    return response
+
+def do_something_with_score(score):
+    print('SCORE!!',score)
+    pass
 
 @app.route('/stats', methods = ['POST', 'GET'])
 def show_stats():

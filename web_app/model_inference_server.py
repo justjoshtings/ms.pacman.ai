@@ -96,9 +96,11 @@ def handle_client(conn, addr):
     connected = True
     try:
         while connected:
-            for frame in stream_gameplay():
+            for frame,rewards in stream_gameplay():
+                rewards_string = f'score{rewards}'
                 serialise_frame = pickle.dumps(frame)
-                message = struct.pack("Q",len(serialise_frame))+serialise_frame #Q: unsigned long long format, 8 bytes size
+                serialise_rewards = pickle.dumps(rewards_string)
+                message = struct.pack("Q",len(serialise_frame)+len(serialise_rewards))+serialise_frame+serialise_rewards #Q: unsigned long long format, 8 bytes size
                 # message consists of first n bytes of message + byte stream of image frame
                 # print('Sending Packets, Packet Size',len(message))
                 # MY_LOGGER.info(f'{datetime.now()} -- Sending Packets, Packet Size {len(message)}')
@@ -215,7 +217,7 @@ def stream_gameplay():
 
     # Start gameplay
     MY_LOGGER.info(f"{datetime.now()} -- Starting Gameplay.")
-    for observation, observation_deprocessed, action, done, last_frame_game_over in ms_pacman_model.play_gen():
+    for observation, observation_deprocessed, action, done, last_frame_game_over, rewards in ms_pacman_model.play_gen():
         
         # Calc most recent last_n_frames fps
         if len(n_frames) < last_n_frames:
@@ -229,9 +231,9 @@ def stream_gameplay():
         
         # Very last frame to yield game over screen
         if last_frame_game_over > 0:
-            yield gameover_screen
+            yield (gameover_screen,rewards)
         else:
-            yield observation_broadcast
+            yield (observation_broadcast,rewards)
         
         # Maintain fps of fps_maintain
         processing_end_time = time.time()

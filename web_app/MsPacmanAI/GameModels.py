@@ -250,7 +250,7 @@ class DQNAgentService:
 
             # Run the episode until we're done.
             while not done:
-                yield (observation, observation_deprocessed, action, done, last_frame_game_over)
+                yield (observation, observation_deprocessed, action, done, last_frame_game_over, episode_reward)
 
                 action = self.dqn.forward(observation)
                 if self.dqn.processor is not None:
@@ -284,7 +284,8 @@ class DQNAgentService:
                     
                     if d:
                         last_frame_game_over += 1
-                        yield (observation, observation_deprocessed, action, done, last_frame_game_over)
+                        print('LAST frame', episode_reward)
+                        yield (observation, observation_deprocessed, action, done, last_frame_game_over, episode_reward)
                     
                     if last_frame_game_over > 1:
                         done = True

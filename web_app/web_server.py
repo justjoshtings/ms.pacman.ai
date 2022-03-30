@@ -56,11 +56,14 @@ def connect_webserver():
     MY_LOGGER.info(f'{datetime.now()} -- Connected to IP:{HOST_IP}, PORT:{PORT}')
     MY_LOGGER.info(f'{datetime.now()} -- Receiving packets...')
     while True:
-        obj = recv_obj(client_socket, payload_size)
+        try:
+            obj,rewards = recv_obj(client_socket, payload_size)
+        except TypeError:
+            obj = None
         if obj is None:
             break
         for frame in process_object(obj):
-            yield frame
+            yield frame+str.encode(f"score{rewards}")
     
     client_socket.close()
     MY_LOGGER.info(f'{datetime.now()} -- Connection closed...')
@@ -92,8 +95,9 @@ def recv_obj(client_socket, payload_size):
     if len(remaining_data) < msg_size:
         MY_LOGGER.info(f'{datetime.now()} -- Truncated message')
         raise IOError("Truncated message")
+    rewards = str(remaining_data[-15:]).split('score')[-1].split('.')[0]
     obj = pickle.loads(data + remaining_data)
-    return obj
+    return obj,rewards
 
 def recvall(client_socket, packet_size):
     """
