@@ -39,10 +39,10 @@ class App extends Component {
                 <TitleHeader />
               </div>
               <div class = 'row'>
-                <StartStop onClick={this.clickStart} playing={this.state.playing}></StartStop>
+                <StartStop onClick={this.clickStart} playing={this.state.playing} />
               </div>
               <div class = 'row justify-content-center'>
-                  <div class = 'col col-md-5 text-center p-3'>
+                  <div class = 'col col-md-7 text-center p-3'>
                       <Game playing={this.state.playing} />
                   </div>
                   <div class = 'col col-md-5 text-center p-3'>
