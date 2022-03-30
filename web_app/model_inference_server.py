@@ -65,7 +65,7 @@ def start():
     ADDR = (HOST_IP, PORT)
 
     print("[STARTING] Sever is starting...")
-    MY_LOGGER.info(f"{datetime.now()} -- {datetime.now()} --[STARTING] Sever is starting...")
+    MY_LOGGER.info(f"{datetime.now()} --[STARTING] Sever is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
     server.listen()
