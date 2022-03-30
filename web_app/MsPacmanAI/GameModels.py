@@ -284,7 +284,6 @@ class DQNAgentService:
                     
                     if d:
                         last_frame_game_over += 1
-                        print('LAST frame', episode_reward)
                         yield (observation, observation_deprocessed, action, done, last_frame_game_over, episode_reward)
                     
                     if last_frame_game_over > 1:

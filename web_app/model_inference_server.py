@@ -10,6 +10,7 @@ created: 3/16/2022
 
 import socket
 import threading
+from mysqlx import ProgrammingError
 import numpy as np
 import cv2
 import pickle
@@ -20,6 +21,7 @@ import time
 import copy
 from datetime import datetime
 import atexit
+import mysql.connector
 
 from MsPacmanAI.Logger import MyLogger
 from MsPacmanAI.GameModels import DQNAgentService
@@ -67,7 +69,12 @@ def start():
     print("[STARTING] Sever is starting...")
     MY_LOGGER.info(f"{datetime.now()} --[STARTING] Sever is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(ADDR)
+    while True:
+        try:
+            server.bind(ADDR)
+            break
+        except OSError:
+            time.sleep(10)
     server.listen()
     print(f"[LISTENING] Server listening on IP: {HOST_IP} and PORT: {PORT}")
     MY_LOGGER.info(f"{datetime.now()} -- [LISTENING] Server listening on IP: {HOST_IP} and PORT: {PORT}")
@@ -232,6 +239,18 @@ def stream_gameplay():
         # Very last frame to yield game over screen
         if last_frame_game_over > 0:
             yield (gameover_screen,rewards)
+
+            print('Saving to db.')
+            MY_LOGGER.info(f"{datetime.now()} -- Saving to db.")
+            mean_fps = round(len(n_frames)/sum(n_frames))
+            time_alive = sum(n_frames)
+            episode_reward = rewards
+            try:
+                to_sql(episode_reward,time_alive,mean_fps)
+            except ProgrammingError:
+                print("Issue connecting to MySQL database, skipping stats insertion.")
+                MY_LOGGER.info(f"{datetime.now()} -- Issue connecting to MySQL database, skipping stats insertion.")
+            MY_LOGGER.info(f"{datetime.now()} -- Gameplay completed.")
         else:
             yield (observation_broadcast,rewards)
         
@@ -249,10 +268,41 @@ def stream_gameplay():
         start_time = time.time()
         
         n_frame += 1
-        
-        if done:
-            MY_LOGGER.info(f"{datetime.now()} -- Gameplay completed.")
-            break
+
+def to_sql(episode_reward, time_alive, mean_fps):
+    '''
+    Inserts gamescore to mysql database
+
+    Params:
+        episode_reward (float): end of episode game score
+        time_alive (float): time that MsPacman was alive in episode
+        mean_fps (int): mean fps of episode
+    '''
+    with open('mysql_config.txt','r') as f:
+        mysql_pw = str(f.read()).strip()
+
+    mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password=mysql_pw,
+            database="mspacmanai"
+            )
+    
+    mycursor = mydb.cursor()
+
+    query = f"INSERT INTO stats_table(game_score, time_alive, mean_fps) VALUES ({episode_reward}, {time_alive}, {mean_fps});"
+    mycursor.execute(query)
+    mydb.commit()
+
+    query = f"DELETE t1 FROM stats_table t1 INNER JOIN stats_table t2 WHERE t1.entry_id > t2.entry_id AND t1.game_score = t2.game_score AND t1.timestamp = t2.timestamp;"
+    mycursor.execute(query)
+    mydb.commit()
+
+    mycursor.close()
+    mydb.close()
+
+    print(mycursor.rowcount, "record inserted.")
+    MY_LOGGER.info(f"{datetime.now()} -- Inserted into MySQL DB: {mycursor.rowcount} record inserted.")
 
 if __name__ == "__main__":
     start()

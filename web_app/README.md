@@ -19,8 +19,33 @@
 14. **src**: javascript + css front end files
 15. **build**: built react project from running 'npm build', if you launch the website like a react project it 
     points here
+16. **run_app_py.sh**: To run app.py front end as a background process in the webserver so that the python script doesn't end when SSH disconnects.
+17. **run_model_inference_server_py**: To run model_inference_server.py as background process in the model inference server so that the python script doesn't end when SSH disconnects.
+18. **mysql_config.txt**: Enter your mysql db password here in order to connect.
+19. **test_sql.py**: To test connection to mysql db is working correctly. Should return data from stats_table.
 
 ## Setup
+#### Model Inference Server
+Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for transmitting live-stream to web server. 
+
+```
+git clone https://github.com/justjoshtings/ms.pacman.ai.git
+cd ./ms.pacman.ai/stream_test/flask_test/
+chmod u+x model_inference_server_setup.sh
+./model_inference_server_setup.sh
+```
+
+Update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_credentials.py
+
+#### Web Server
+* Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for receiving live-stream from model inference server. Also ensure proper inbound/outbound ports for Flask app and HTTP/HTTPS connections.
+
+```
+git clone https://github.com/justjoshtings/ms.pacman.ai.git
+cd ./ms.pacman.ai/stream_test/flask_test/
+chmod u+x web_server_setup.sh
+./web_server_setup.sh
+```
 
 ### To launch as a Flask App
 
@@ -45,6 +70,22 @@ python3 model_inference_server.py
 This should print out your local IP.
 Update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_credentials.py
 
+Or to run it as a background process to prevent script breaking when SSH disconnects.
+```
+chmod +x run_model_inference_server_py.sh
+./run_model_inference_server_py.sh
+```
+
+To check if background process is running and get PID
+```
+ps ax | grep model_inference_server.py
+```
+
+To kill PID where PID is the process ID
+```
+kill PID
+```
+
 #### 3. Web Server
 Open a seperate terminal window
 
@@ -59,6 +100,21 @@ app.run(host='0.0.0.0', port=someport, debug=True, threaded=True)
 python3 app.py
 ```
 
+Or to run it as a background process to prevent script breaking when SSH disconnects.
+```
+chmod +x run_app_py.sh
+./run_app_py.sh
+```
+
+To check if background process is running and get PID
+```
+ps ax | grep app.py
+```
+
+To kill PID where PID is the process ID
+```
+kill PID
+```
 ### To Launch as a React App (Good for debugging front end as it updates automatically)
 Follow steps 2 + 3 from above.
 

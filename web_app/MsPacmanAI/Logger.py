@@ -25,10 +25,11 @@ class MyLogger:
         self.my_logger.setLevel(logging.DEBUG)
         
         # Add the log message handler to the logger
-        handler = logging.handlers.RotatingFileHandler(
-                    log_filename, maxBytes=10000000, backupCount=2)
+        if not self.my_logger.handlers:
+            handler = logging.handlers.RotatingFileHandler(
+                        log_filename, maxBytes=10000000, backupCount=2)
 
-        self.my_logger.addHandler(handler)
+            self.my_logger.addHandler(handler)
     
     def get_mylogger(self):
         '''
