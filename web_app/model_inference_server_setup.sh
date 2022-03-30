@@ -17,6 +17,7 @@ pip3 install Pillow
 pip3 install matplotlib
 pip3 install seaborn
 pip3 install mysql-connector-python
+pip3 install pandas
 
 # To allow cv2 imports
 sudo apt install -y libgl1-mesa-glx
