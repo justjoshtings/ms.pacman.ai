@@ -1,12 +1,11 @@
 .game {
     width: 100%;
-    height: 100%;
     box-shadow: 0 0 10px;
 }
 .basegame {
     width: 100%;
+    height: 20%;
     box-shadow: 0 0 10px;
-    opacity: 30%;
 }
 .textoverimage {
     left:27%;

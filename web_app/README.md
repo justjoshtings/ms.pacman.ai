@@ -15,56 +15,38 @@
 10. **model_inference_server_setup.sh**: Execute in model inference server to setup model inference dependencies and environment.
 11. **web_server_setup.sh**: Execute in web server to setup web server dependencies and environment.
 12. **MsPacmanAI.Logger**: Logger object to handle logging DEBUG and INFO.
+13. **public**: Public front end websites
+14. **src**: javascript + css front end files
+15. **build**: built react project from running 'npm build', if you launch the website like a react project it 
+    points here
 
 ## Setup
-#### Model Inference Server
-Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for transmitting live-stream to web server.
 
+### To launch as a Flask App
+
+#### 1. React Project  
+While inside the 'web_app' folder, run the command
 ```
-git clone https://github.com/justjoshtings/ms.pacman.ai.git
-cd ./ms.pacman.ai/web_app/
-chmod u+x model_inference_server_setup.sh
-./model_inference_server_setup.sh
+npm install .
+```  
+Then run the command 
+```
+npm run build
 ```
 
-Update socket credentials in ms.pacman.ai/web_app/socket_server_credentials.py
+
+#### 2. Model Inference Server
+Open a new terminal and run model_inference_server.py
 
 ```
 python3 model_inference_server.py
 ```
 
-Consider using a (public-bastion | private subnet | NAT gateway) servers setup for better privacy and security. Sample setup example:
+This should print out your local IP.
+Update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_credentials.py
 
-1. Create private EC2 in private subnet.
-2. Create public EC2 to act as bastion to ssh into private EC2.
-3. Create elastic IP.
-4. Create NatGateway and allocated elastic IP.
-5. [Set up route tables of private subnet.](https://docs.axway.com/bundle/SecureTransport_54_on_AWS_InstallationGuide_allOS_en_HTML5/page/Content/AWS/securitygroups/st_nat_gateway_subnet_routing.htm)
-6. SSH Agent forward into bastion EC2.
-```
-ssh -A user@<bastion-IP-address>
-```
-7. SSH from bastion EC2 into private EC2.
-```
-ssh user@<instance-IP-address>
-```
-8. Test internet connection from private EC2.
-```
-ping google.com
-```
-9. Apply setup steps from above.
-
-#### Web Server
-* Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for receiving live-stream from model inference server. Also ensure proper inbound/outbound ports for Flask app and HTTP/HTTPS connections.
-
-```
-git clone https://github.com/justjoshtings/ms.pacman.ai.git
-cd ./ms.pacman.ai/web_app/
-chmod u+x web_server_setup.sh
-./web_server_setup.sh
-```
-
-* Update socket credentials in ms.pacman.ai/web_app/socket_server_credentials.py
+#### 3. Web Server
+Open a seperate terminal window
 
 * Update app.run() in app.py. Important to note that this is only for development and testing purposes. Do not deploy the Flask app into a production setting with these configurations and technology stack.
 ```
@@ -76,5 +58,19 @@ app.run(host='0.0.0.0', port=someport, debug=True, threaded=True)
 ```
 python3 app.py
 ```
+
+### To Launch as a React App (Good for debugging front end as it updates automatically)
+Follow steps 2 + 3 from above.
+
+#### Start React App  
+In a third terminal window launch the React App from 'web_app'
+```
+npm start
+```  
+This should open the website in a browser window.
+The webserver is listening on a port while the flask app is communicating with it (but not launching a front end).
+The React App is then streaming to the browser and communicating with the flask app.
+
 ## Simplified Server Communications Architecture
-![server_comms](https://github.com/justjoshtings/ms.pacman.ai/blob/main/web_app/server_communications.jpg)
+![server_comms](https://github.com/justjoshtings/ms.pacman.
+ai/blob/main/stream_test_react/flask_test/server_communications.jpg)
