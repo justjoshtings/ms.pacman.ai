@@ -1,7 +1,7 @@
 """
 app.py
 
-Test Flask App for Ms. Pacman
+Flask app for Ms. Pacman AI
 
 author: @justjoshtings
 created: 3/16/2022
@@ -80,5 +80,7 @@ def show_stats():
 
 if __name__ == "__main__":
     print('Running App')
+    from waitress import serve
     someport = 8080
-    app.run(host = '0.0.0.0', port = someport, debug = True, threaded = True)
+    serve(app, host="0.0.0.0", port=someport)
+    # app.run(host = '0.0.0.0', port = someport, debug = True, threaded = True)

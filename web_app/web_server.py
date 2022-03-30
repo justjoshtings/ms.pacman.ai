@@ -51,7 +51,6 @@ def connect_webserver():
         except Exception as e:
             MY_LOGGER.error("Connection to server error: %s", e)
             MY_LOGGER.debug("", exc_info=True)
-
     
     MY_LOGGER.info(f'{datetime.now()} -- Connected to IP:{HOST_IP}, PORT:{PORT}')
     MY_LOGGER.info(f'{datetime.now()} -- Receiving packets...')

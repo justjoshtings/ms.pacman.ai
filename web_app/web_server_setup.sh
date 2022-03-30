@@ -16,6 +16,8 @@ pip3 install opencv-python
 sudo apt install -y libgl1-mesa-glx
 
 pip3 install flask
+pip3 install waitress
+pip3 install mysql-connector-python
 
 # create socket_server_credentials.py from socket_server_credentials_template.py and edit IP/PORTs
 cd ~/ms.pacman.ai/web_app/MsPacmanAI/
@@ -25,7 +27,7 @@ cp socket_server_credentials_template.py socket_server_credentials.py
 sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
 
 cd ~/ms.pacman.ai/
-pip install -r requirements.txt
+# pip install -r requirements.txt
 pip install gunicorn flask
 pip install wheel
 
@@ -42,3 +44,16 @@ npm run build
 echo "Please update socket credentials in /ms.pacman.ai/web_app/MsPacmanAI/socket_server_credentials.py"
 
 echo "app.run(host='0.0.0.0', port='8080', debug=True,threaded=True)"
+
+# Mysql password handling
+FILE=~/ms.pacman.ai/web_app/mysql_config.txt
+echo "Store password in $FILE"
+
+if test -f "$FILE"; then
+    echo "$FILE exists."
+else
+    echo "some_temp_password" >> $FILE
+fi
+
+mysql_password=$(cat $FILE)
+echo "$mysql_password"
