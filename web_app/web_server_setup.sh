@@ -16,8 +16,12 @@ pip3 install opencv-python
 sudo apt install -y libgl1-mesa-glx
 
 pip3 install flask
+pip3 install flask_cors
 pip3 install waitress
 pip3 install mysql-connector-python
+pip3 install pandas
+pip3 install matplotlib
+pip3 install seaborn
 
 # create socket_server_credentials.py from socket_server_credentials_template.py and edit IP/PORTs
 cd ~/ms.pacman.ai/web_app/MsPacmanAI/
@@ -28,8 +32,8 @@ sudo apt install -y python3-pip python3-dev build-essential libssl-dev libffi-de
 
 cd ~/ms.pacman.ai/
 # pip install -r requirements.txt
-pip install gunicorn flask
-pip install wheel
+pip3 install gunicorn flask
+pip3 install wheel
 
 sudo ufw allow 8080
 
@@ -37,6 +41,21 @@ sudo apt install -y npm
 
 cd ~/ms.pacman.ai/web_app/
 npm install .
+
+#Update node version to latest
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Update npm version to latest
+sudo npm install npm -g
+
+echo "node version should be >= 14.0.0"
+node -v
+
+echo "npm version should be >= 5.6"
+npm -v
+
+# Run npm build
 npm run build
 
 echo "Please update socket credentials in /ms.pacman.ai/web_app/MsPacmanAI/socket_server_credentials.py"
