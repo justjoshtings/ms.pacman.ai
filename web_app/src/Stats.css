@@ -3,3 +3,10 @@
     height: auto;
     box-shadow: 0 0 10px;
 }
+
+.score {
+    font-size: 30px;
+    font-style: bold;
+    color:#FFE226;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

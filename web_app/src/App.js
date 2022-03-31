@@ -18,45 +18,72 @@ class App extends Component {
       super(props);
   
       this.state = {
-        playing: false
+          playing: false,
+          score:0,
+          endpoint: 'http://localhost:8080'
       };
       this.clickStart = this.clickStart.bind(this);
+      this.handleStream = this.handleStream.bind(this);
+      this.sse = null;
+      this.refresh = this.refresh.bind(this);
     }
 
     clickStart(){
-      console.log('Start clicked')
+      console.log('Start clicked');
+      if(!this.state.playing){
+          this.setState({
+              score:0
+          })
+      }
       this.setState({
           playing: !this.state.playing
       });
       console.log(this.state.playing);
     }
 
+    refresh(){
+        window.location.reload(false);
+    }
+
+    handleStream(e){
+        console.log(e.data)
+        this.setState({score:e.data})
+    }
+
+    componentDidMount() {
+        console.log('mounted and started listening to stream')
+        console.log(this.state.endpoint)
+        const sse = new EventSource(this.state.endpoint + '/scorestream')
+        sse.onmessage = e => this.handleStream(e)
+        this.sse = sse
+    }
+
     render() {
         return (
-          <div class = 'main'>
-            <div class = 'container'>
-              <div class = 'row'>
+          <div className = 'main'>
+            <div className = 'container'>
+              <div className = 'row'>
                 <TitleHeader />
               </div>
-              <div class = 'row'>
-                <StartStop onClick={this.clickStart} playing={this.state.playing} />
+              <div className = 'row'>
+                <StartStop onClick={this.clickStart} onRefresh = {this.refresh} playing={this.state.playing} />
               </div>
-              <div class = 'row justify-content-center'>
-                  <div class = 'col col-md-7 text-center p-3'>
+              <div className = 'row justify-content-center'>
+                  <div className = 'col col-md-7 text-center p-3'>
                       <Game playing={this.state.playing} />
                   </div>
-                  <div class = 'col col-md-5 text-center p-3'>
-                      <Stats />
+                  <div className = 'col col-md-5 text-center p-3'>
+                      <Stats playing = {this.state.playing} score = {this.state.score}/>
                   </div>
               </div>
-              <div class = 'row justify-content-center p-4'>
-                <div class = 'col'>
+              <div className = 'row justify-content-center p-4'>
+                <div className = 'col'>
                   <Vid title = 'vid1'/>
                 </div>
-                <div class = 'col'>
+                <div className = 'col'>
                   <Vid title = 'vid2'/>
                 </div>
-                <div class = 'col'>
+                <div className = 'col'>
                   <Vid title = 'vid3'/>
                 </div>
               </div>

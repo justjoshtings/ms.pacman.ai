@@ -8,6 +8,7 @@ created: 3/16/2022
 """
 from unittest import result
 from flask import Flask, render_template, request, Response, send_file
+from flask_cors import CORS
 
 from web_server import connect_webserver
 from stats import make_plot
@@ -16,6 +17,10 @@ import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 app = Flask(__name__, template_folder = 'build', static_folder = 'build/static')
+CORS(app)
+global score
+global FLAG
+FLAG = False
 @app.route('/')
 
 def index():
@@ -33,6 +38,11 @@ def video_feed():
     from time import sleep
     global result
     params = result
+    global FLAG
+    FLAG = False
+
+    global score
+    score = 0
 
     def intermediate_stream_feed():
         '''
@@ -46,23 +56,26 @@ def video_feed():
 
     response = Response(intermediate_stream_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-    # Initialize random scores
-    global score
-    score = -1
-
     @response.call_on_close
     def on_close():
         '''
         Does some action after response is returned and before exiting function video_feed().
         Here we pass the score into some other function for continued processing.
         '''
-        do_something_with_score(score)
-    
+        global FLAG
+        FLAG = True
+
     return response
 
-def do_something_with_score(score):
-    print('SCORE!!',score)
-    pass
+@app.route('/scorestream')
+def do_something_with_score():
+    def get_score():
+        if FLAG:
+            yield f'data: {score} \n\n'
+        else:
+            pass
+
+    return Response(get_score(), mimetype='text/event-stream')
 
 @app.route('/stats', methods = ['POST', 'GET'])
 def show_stats():

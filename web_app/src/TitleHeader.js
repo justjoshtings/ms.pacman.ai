@@ -4,19 +4,16 @@ import pacman from './mspacmanlogo.jpeg'
 // import './fonts/crackman/crackman.ttf';
 
 class TitleHeader extends Component {
-    constructor(props){
-        super(props);
-    }
 
     render(){
         return (
-            <div class = 'container'>
-                <div class = 'row p-3'>
-                    <div class = 'col-3'>
-                        <img class='logo' src = {pacman}/>
+            <div className = 'container'>
+                <div className = 'row p-3'>
+                    <div className = 'col-3'>
+                        <img className='logo' src = {pacman}/>
                     </div>
-                    <div class = 'col-9'>
-                        <p class = 'display-4'><span class='text-center words dqn'>DQN </span> <span class = 'agent'> Agent Plays </span> <span class = 'words pacman'> Ms.Pacman</span></p>
+                    <div className = 'col-9'>
+                        <p className = 'display-4'><span className='text-center words dqn'>DQN </span> <span className = 'agent'> Agent Plays </span> <span className = 'words pacman'> Ms.Pacman</span></p>
                     </div>
                 </div>
             </div>

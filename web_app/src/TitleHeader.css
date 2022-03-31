@@ -1,6 +1,7 @@
 .agent {
     font-size: 60px;
-    color: #F5F5F5;
+    /*color: #F5F5F5;*/
+    color: black;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .words {
