@@ -24,7 +24,7 @@ cd ~/ms.pacman.ai/web_app/MsPacmanAI/
 cp socket_server_credentials_template.py socket_server_credentials.py
 
 # commands I ran to set up webserver
-sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
+sudo apt install -y python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
 
 cd ~/ms.pacman.ai/
 # pip install -r requirements.txt
@@ -33,13 +33,11 @@ pip install wheel
 
 sudo ufw allow 8080
 
-sudo apt install npm
+sudo apt install -y npm
 
 cd ~/ms.pacman.ai/web_app/
 npm install .
 npm run build
-
-
 
 echo "Please update socket credentials in /ms.pacman.ai/web_app/MsPacmanAI/socket_server_credentials.py"
 

@@ -41,7 +41,7 @@ pip3 install .
 pip3 install 'gym[atari,accept-rom-license]==0.22.0'
 
 # install mysql
-sudo apt install -y mysql-server
+sudo apt-get install -y mysql-server
 sudo systemctl status mysql
 
 # Mysql password handling
@@ -57,21 +57,25 @@ fi
 mysql_password=$(cat $FILE)
 echo "$mysql_password"
 
-# Setup mysql db
+# Setup mysql db, might have to do this part manually
 # sudo mysql
-mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY $mysql_password; FLUSH PRIVILEGES;"
-mysql -u root -e "exit"
+sudo mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$mysql_password'; FLUSH PRIVILEGES;"
+# mysql -u root -e "exit"
 
 # sudo mysql -p
 mysql -h "localhost" -u root -p$mysql_password -e "show databases"
 mysql -h "localhost" -u root -p$mysql_password -e "CREATE DATABASE IF NOT EXISTS mspacmanai;"
-mysql -h "localhost" -u root -p$mysql_password -e "USE mspacmanai;"
 mysql -h "localhost" -u root -p$mysql_password -e "USE mspacmanai; CREATE TABLE IF NOT EXISTS stats_table (entry_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 , game_score DOUBLE(10,2), time_alive DOUBLE(10,2), mean_fps DOUBLE(10,2), timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);"
 
 cd ~/
-sudo vim /etc/mysql/my.cnf
+sudo chmod u+w /etc/mysql/my.cnf
+echo -e '\n\n[mysqld]\nbind-address = 0.0.0.0' | sudo tee -a /etc/mysql/my.cnf
+cat /etc/mysql/my.cnf
+# sudo vim /etc/mysql/my.cnf
 sudo /etc/init.d/mysql restart
 
 mysql -h "localhost" -u root -p$mysql_password -e "CREATE USER 'root'@'%' IDENTIFIED BY '$mysql_password';"
 mysql -h "localhost" -u root -p$mysql_password -e "GRANT ALL PRIVILEGES ON *.* to root@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+mysql -h "localhost" -u root -p$mysql_password -e "USE mspacmanai; SHOW TABLES; SELECT * FROM stats_table;"

@@ -30,7 +30,16 @@ Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/out
 
 ```
 git clone https://github.com/justjoshtings/ms.pacman.ai.git
-cd ./ms.pacman.ai/stream_test/flask_test/
+cd ~/ms.pacman.ai/web_app/
+```
+Enter the mysql db password in ~/ms.pacman.ai/web_app/mysql_config.txt
+```
+vim ~/ms.pacman.ai/web_app/mysql_config.txt
+[enter password]
+:wq [enter]
+```
+Run setup shell script
+```
 chmod u+x model_inference_server_setup.sh
 ./model_inference_server_setup.sh
 ```
@@ -42,7 +51,16 @@ Update socket credentials in ms.pacman.ai/stream_test/flask_test/socket_server_c
 
 ```
 git clone https://github.com/justjoshtings/ms.pacman.ai.git
-cd ./ms.pacman.ai/stream_test/flask_test/
+cd ~/ms.pacman.ai/web_app/
+```
+Enter the mysql db password in ~/ms.pacman.ai/web_app/mysql_config.txt
+```
+vim ~/ms.pacman.ai/web_app/mysql_config.txt
+[enter password]
+:wq [enter]
+```
+Run setup shell script
+```
 chmod u+x web_server_setup.sh
 ./web_server_setup.sh
 ```
@@ -128,5 +146,4 @@ The webserver is listening on a port while the flask app is communicating with i
 The React App is then streaming to the browser and communicating with the flask app.
 
 ## Simplified Server Communications Architecture
-![server_comms](https://github.com/justjoshtings/ms.pacman.
-ai/blob/main/stream_test_react/flask_test/server_communications.jpg)
+![server_comms](https://github.com/justjoshtings/ms.pacman.ai/blob/main/stream_test_react/flask_test/server_communications.jpg)
