@@ -10,6 +10,7 @@ created: 3/16/2022
 
 import socket
 import threading
+from mysqlx import ProgrammingError
 import numpy as np
 import cv2
 import pickle
