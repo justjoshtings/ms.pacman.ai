@@ -5,22 +5,40 @@ class Stats extends Component {
     constructor(props){
         super(props);
         this.state = {
-            endpoint: 'http://localhost:8080',
-            score: this.props.score
+            score: this.props.score,
+            avg_time: 0,
+            avg_score: 0
         }
+        this.get_stats = this.get_stats.bind(this);
+    }
+
+    get_stats(){
+        fetch(this.props.endpoint + '/avg')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                this.setState({
+                    avg_time: res.avg_time.toFixed(2),
+                    avg_score: res.avg_score.toFixed(2)})
+            }).catch(err => console.log(err));
+    }
+
+    componentDidMount() {
+        this.get_stats()
     }
 
     render(){
-        var endpoint = window.location.href;
-        var endpoint = 'http://localhost:8080'
+
         return (
-            <div class = 'container'>
-                {/*<img className = 'statsimg' src={endpoint+"/stats"} />*/}
+            <div class = 'container box'>
                 <div className = 'row justify-content-start'>
-                    <p className = 'score'>SCORE: {this.props.score}</p>
+                    <div className = "col">
+                        <p className = 'score'>SCORE: <span className="num">{this.props.score}</span></p>
+                    </div>
                 </div>
-                <div className = 'row justify-content-start pastScores'>
-                    <p className='score'>Average Model Score: </p>
+                <div className = 'row justify-content-start'>
+                    <p className='score'>Average Model Score: <span className="num">{this.props.avg_score}</span> points</p>
+                    <p className='score'>Average Time Alive: <span className="num">{this.props.avg_time}</span> seconds</p>
                 </div>
 
             </div>

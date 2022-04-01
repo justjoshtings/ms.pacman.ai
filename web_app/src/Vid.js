@@ -1,6 +1,8 @@
-import React, {Component} from 'react'
-import './Vid.css'
-import basegame from './basegame.png'
+import React, {Component} from 'react';
+import './Vid.css';
+import basegame from './basegame.png';
+import ReactPlayer from "react-player";
+import Player from 'react';
 
 class Vid extends Component {
     constructor(props){
@@ -10,9 +12,9 @@ class Vid extends Component {
 
     render(){
         return (
-            <div class = 'container'>
-                <img className = 'basegame' src={basegame}/>
-                <div class = 'textoverimage'>{this.props.title}</div>
+            <div class = 'container row text-center'>
+                <div className = 'title'>{this.props.title}</div>
+                <ReactPlayer url = {this.props.url} controls = {true} width = '100%'/>
             </div>
         )
     }

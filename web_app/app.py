@@ -15,6 +15,9 @@ from stats import make_plot
 from stats import load_plot
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import mysql.connector
+import numpy as np
+
 
 app = Flask(__name__, template_folder = 'build', static_folder = 'build/static')
 CORS(app)
@@ -90,6 +93,31 @@ def show_stats():
     # return Response(output.getvalue(), mimetype = 'image/png')
     im = 'tempfig.png'
     return send_file(im, mimetype='image/png')
+
+@app.route('/avg', methods = ['GET'])
+def get_avg():
+
+    with open('mysql_app_config.txt', 'r') as f:
+        host = str(f.read()).strip()
+
+    with open('mysql_config.txt', 'r') as f:
+        password = str(f.read()).strip()
+
+    mydb = mysql.connector.connect(
+        #host = "ip-42-0-136-127",
+        host = host,
+        user = "root",
+        password = password,
+        database = "mspacmanai"
+    )
+    cursor = mydb.cursor()
+    q = 'SELECT * from stats_table;'
+    cursor.execute(q)
+    res = np.array(cursor.fetchall())
+    avg_score = np.mean(res[:,1])
+    avg_time = np.mean(res[:,2])
+    return {'avg_score': avg_score, 'avg_time': avg_time}
+
 
 if __name__ == "__main__":
     print('Running App')

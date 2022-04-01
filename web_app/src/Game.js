@@ -7,7 +7,6 @@ class Game extends Component {
     constructor(props){
         super(props);
         this.state = {
-            endpoint: 'http://localhost:8080',
             score: null,
             gameUrl: null
         };
@@ -19,7 +18,7 @@ class Game extends Component {
 
     getScore() {
         console.log('getting score??')
-        fetch(this.state.endpoint + '/score')
+        fetch(this.props.endpoint + '/score')
             .then(res => res.json())
             .then(res => {
                 // console.log(res)
@@ -39,13 +38,13 @@ class Game extends Component {
     }
     test() {
         console.log('testing score??')
-        fetch(this.state.endpoint + '/results')
+        fetch(this.props.endpoint + '/results')
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
     getFrames() {
         console.log('getting frames maybe')
-        fetch(this.state.endpoint + '/results')
+        fetch(this.props.endpoint + '/results')
             .then(this.validateRes)
             .then(response => response.blob())
             .then(blob => {
@@ -57,13 +56,11 @@ class Game extends Component {
     render(){
         console.log('rendered....')
         console.log('props -- ' + this.props.playing)
-        var endpoint = window.location.href;
-        var endpoint = 'http://localhost:8080'
 
         if (this.props.playing) {
             return (
             <div class = 'container'>
-                <img className = 'game' src={endpoint + '/results'} />
+                <img className = 'game' src={this.props.endpoint + '/results'} />
             </div>
             )
         }
