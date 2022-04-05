@@ -74,3 +74,6 @@ fi
 
 mysql_password=$(cat $FILE)
 echo "$mysql_password"
+
+echo "to run on the gunicorn server:"
+echo "gunicorn --bind 0.0.0.0:8080 wsgi:app"
