@@ -21,7 +21,6 @@ import numpy as np
 
 app = Flask(__name__, template_folder = 'build', static_folder = 'build/static')
 CORS(app)
-global score
 global FLAG
 FLAG = False
 @app.route('/')
@@ -45,17 +44,17 @@ def video_feed():
     FLAG = False
 
     global score
-    score = 0
 
     def intermediate_stream_feed():
         '''
         Start connect_webserver() generator to separate score from frame
         Feed frame into Response() while set score as a global variable to access later on
         '''
+        global score
         for frame in connect_webserver():
-            global score
             score = int(str(frame[-10:]).split('score')[-1][:-1])
             yield frame
+
 
     response = Response(intermediate_stream_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -103,6 +102,8 @@ def get_avg():
     with open('mysql_config.txt', 'r') as f:
         password = str(f.read()).strip()
 
+    host = 'localhost'
+    password = 'N3tw0rks#!'
     mydb = mysql.connector.connect(
         #host = "ip-42-0-136-127",
         host = host,
@@ -116,7 +117,8 @@ def get_avg():
     res = np.array(cursor.fetchall())
     avg_score = np.mean(res[:,1])
     avg_time = np.mean(res[:,2])
-    return {'avg_score': avg_score, 'avg_time': avg_time}
+    last_score = res[-1, 1]
+    return {'avg_score': avg_score, 'avg_time': avg_time, 'last_score':last_score}
 
 
 if __name__ == "__main__":

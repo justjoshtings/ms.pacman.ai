@@ -1,7 +1,6 @@
-import React, {Component} from 'react'
-import './Game.css'
-import basegame from './startscreen.png'
-import {useEffect, useState} from 'react'
+import React, {Component} from 'react';
+import './Game.css';
+import basegame from './startscreen.png';
 
 class Game extends Component {
     constructor(props){
@@ -10,7 +9,6 @@ class Game extends Component {
             score: null,
             gameUrl: null
         };
-       // this.getScore = this.getScore.bind(this);
         this.getFrames = this.getFrames.bind(this);
         this.validateRes = this.validateRes.bind(this);
         this.test = this.test.bind(this);
@@ -21,7 +19,6 @@ class Game extends Component {
         fetch(this.props.endpoint + '/score')
             .then(res => res.json())
             .then(res => {
-                // console.log(res)
                 this.setState({
                     score: res.score
                 })
@@ -42,32 +39,29 @@ class Game extends Component {
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
+
     getFrames() {
         console.log('getting frames maybe')
         fetch(this.props.endpoint + '/results')
-            .then(this.validateRes)
             .then(response => response.blob())
-            .then(blob => {
-                this.setState({gameUrl: URL.createObjectURL(blob)})
-            })
+            .then(res => console.log(res))
     }
 
 
     render(){
         console.log('rendered....')
-        console.log('props -- ' + this.props.playing)
 
         if (this.props.playing) {
             return (
-            <div class = 'container'>
-                <img className = 'game' src={this.props.endpoint + '/results'} />
+            <div className = 'container'>
+                <img className = 'game' src={this.props.endpoint + '/results'} alt = '' />
             </div>
             )
         }
         else {
             return (
-            <div class = 'container'>
-                <img className = 'basegame' src={basegame} />
+            <div className = 'container'>
+                <img className = 'basegame' src={basegame} alt = '' />
             </div>
             )
         }

@@ -13,6 +13,7 @@ class Stats extends Component {
     }
 
     get_stats(){
+        console.log(this.props.endpoint)
         fetch(this.props.endpoint + '/avg')
             .then(res => res.json())
             .then(res => {
@@ -23,17 +24,13 @@ class Stats extends Component {
             }).catch(err => console.log(err));
     }
 
-    componentDidMount() {
-        this.get_stats()
-    }
-
     render(){
 
         return (
-            <div class = 'container box'>
+            <div className = 'container box'>
                 <div className = 'row justify-content-start'>
                     <div className = "col">
-                        <p className = 'score'>SCORE: <span className="num">{this.props.score}</span></p>
+                        <p className = 'score'>LATEST SCORE: <span className="num">{this.props.score}</span></p>
                     </div>
                 </div>
                 <div className = 'row justify-content-start'>

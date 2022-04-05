@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import './App.css'
-import { useEffect } from 'react';
 import TitleHeader from './TitleHeader'
 import StartStop from './StartStop';
-import { useState } from 'react';
-import axios from 'axios';
 import Game from './Game';
 import Stats from './Stats';
 import Vid from './Vid';
@@ -13,12 +10,13 @@ import './fonts/crackman/crackman front.ttf';
 import './fonts/crackman/crackman.ttf';
 import randommodel from './randommodel.mp4';
 import okmodel from './80kSteps.mp4'
+import medplot from './plots/Median Plot.png';
+import rangeplot from './plots/Range Plot.png';
 
 
 class App extends Component {
     constructor(props){
       super(props);
-  
       this.state = {
           playing: false,
           score:0,
@@ -28,17 +26,15 @@ class App extends Component {
           avg_time: 0
       };
       this.clickStart = this.clickStart.bind(this);
-      this.handleStream = this.handleStream.bind(this);
-      this.sse = null;
-      this.refresh = this.refresh.bind(this);
-      // this.get_stats = this.get_stats.bind(this);
+      this.get_stats = this.get_stats.bind(this);
+      //this.get_stats();
     }
 
     clickStart(){
       console.log('Start clicked');
       if(!this.state.playing){
           this.setState({
-              score:0
+              score:'. . .'
           })
       }
       this.setState({
@@ -47,23 +43,24 @@ class App extends Component {
       console.log(this.state.playing);
     }
 
-    refresh(){
+    clickStop(){
+        console.log('Stop clicked')
         window.location.reload(false);
     }
 
-    handleStream(e){
-        this.setState({score:e.data});
+    get_stats(){
+        fetch(this.state.endpoint + '/avg')
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    avg_time: res.avg_time.toFixed(2),
+                    avg_score: res.avg_score.toFixed(2),
+                    score: res.last_score})
+            }).catch(err => console.log(err));
     }
-
     componentDidMount() {
-        console.log('mounted and stad listening to stream');
-        console.log(this.state.endpoint);
-        const sse = new EventSource(this.state.endpoint + '/scorestream');
-        sse.onmessage = e => this.handleStream(e);
-        this.sse = sse;
+        this.get_stats();
     }
-
-
 
     render() {
         return (
@@ -73,16 +70,24 @@ class App extends Component {
                 <TitleHeader />
               </div>
               <div className = 'row'>
-                <StartStop onClick={this.clickStart} onRefresh = {this.refresh} playing={this.state.playing} />
+                <StartStop onStart={this.clickStart} onStop = {this.clickStop} playing={this.state.playing} />
               </div>
               <div className = 'row justify-content-center'>
                   <div className = 'col col-md-7 text-center p-3'>
                       <Game playing={this.state.playing} endpoint = {this.state.endpoint}/>
                   </div>
                   <div className = 'col col-md-5 p-3'>
-                      <Stats playing = {this.state.playing} score = {this.state.score} avg_score = {this.state.avg_score} avg_time = {this.state.avg_time}/>
+                      <Stats playing = {this.state.playing} endpoint = {this.state.endpoint } score = {this.state.score} avg_score = {this.state.avg_score} avg_time = {this.state.avg_time}/>
                   </div>
               </div>
+                <div className = 'row justify-content-center'>
+                    <div className = 'col-6'>
+                        <img className = 'medplot' src = {medplot} alt = ''/>
+                    </div>
+                    <div className = 'col-6'>
+                        <img className = 'medplot' src = {rangeplot} alt = ''/>
+                    </div>
+                </div>
               <div className = 'row justify-content-center p-4'>
                 <div className = 'col col-4'>
                   <Vid title = 'Random Model' url = {randommodel}/>
