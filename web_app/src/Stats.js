@@ -34,7 +34,7 @@ class Stats extends Component {
                     </div>
                 </div>
                 <div className = 'row justify-content-start'>
-                    <p className='score'>Average Model Score: <span className="num">{this.props.avg_score}</span> points</p>
+                    <p className='score'>Average Score: <span className="num">{this.props.avg_score}</span> points</p>
                     <p className='score'>Average Time Alive: <span className="num">{this.props.avg_time}</span> seconds</p>
                 </div>
 
