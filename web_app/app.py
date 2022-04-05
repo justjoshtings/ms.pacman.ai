@@ -103,7 +103,6 @@ def get_avg():
         password = str(f.read()).strip()
 
     mydb = mysql.connector.connect(
-        #host = "ip-42-0-136-127",
         host = host,
         user = "root",
         password = password,
