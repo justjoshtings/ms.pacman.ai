@@ -102,8 +102,6 @@ def get_avg():
     with open('mysql_config.txt', 'r') as f:
         password = str(f.read()).strip()
 
-    host = 'localhost'
-    password = 'N3tw0rks#!'
     mydb = mysql.connector.connect(
         #host = "ip-42-0-136-127",
         host = host,
