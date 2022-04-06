@@ -109,7 +109,7 @@ def get_avg():
         database = "mspacmanai"
     )
     cursor = mydb.cursor()
-    q = 'SELECT * from stats_table;'
+    q = 'SELECT entry_id, game_score, time_alive FROM stats_table;'
     cursor.execute(q)
     res = np.array(cursor.fetchall())
     avg_score = np.mean(res[:,1])
