@@ -11,6 +11,10 @@ sudo apt install -y python3-pip
 cd ~/
 git clone https://github.com/justjoshtings/ms.pacman.ai.git
 
+cd /home/ubuntu/ms.pacman.ai/web_app
+python3 -m venv mspacman
+source mspacman/bin/activate
+
 pip3 install opencv-python
 # To allow cv2 imports
 sudo apt install -y libgl1-mesa-glx
@@ -34,6 +38,7 @@ cd ~/ms.pacman.ai/
 # pip install -r requirements.txt
 pip3 install gunicorn flask
 pip3 install wheel
+sudo apt install nginx
 
 sudo ufw allow 8080
 
@@ -74,6 +79,27 @@ fi
 
 mysql_password=$(cat $FILE)
 echo "$mysql_password"
+deactivate
 
-echo "to run on the gunicorn server:"
-echo "gunicorn --bind 0.0.0.0:8080 wsgi:app"
+echo "[Unit]
+Description=Gunicorn instance to serve mspacman
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+
+WorkingDirectory=/home/ubuntu/ms.pacman.ai/web_app
+Environment="PATH=/home/ubuntu/ms.pacman.ai/web_app/mspacman/bin"
+ExecStart=/home/ubuntu/ms.pacman.ai/web_app/mspacman/bin/gunicorn --bind 0.0.0.0:8080 wsgi:app --timeout 300
+
+[Install]
+WantedBy=multi-user.target" >> /etc/systemd/system/mspacman.service
+
+echo "if you haven't used this server before run:"
+echo "sudosystemctl start mspacman"
+echo "sudosystemctl enable mspacman"
+echo "sudosystemctl status mspacman"
+
+
+
