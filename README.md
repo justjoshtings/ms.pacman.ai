@@ -1,21 +1,20 @@
 #ms.pacman.ai - Group3
 ## George Washington University, Cloud Computing - DATS6450, Spring 2022
 
-![pacman](https://i.guim.co.uk/img/media/8152f8ea7f06fd8ef5c68a3a594e6ac35dfd774b/0_342_800_480/master/800.jpg?width=620&quality=45&auto=format&fit=max&dpr=2&s=bdb69ce2ed723cc2d85b00143d8b3e28)
-
+![pacman](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/pacman_demo.gif)
 
 # Project Description
 Train an AI agent to play Ms. Pacman from Atari 2600.
 
-
+![mspacman_env](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/mspacman_environment.png)
 ## Table of Contents
 1. [Team Members](#team_members)
 2. [How to Run](#instructions)
 3. [Folder Structure](#structure)
 4. [Background and Related Works](#background)
 5. [Architecture](#architecture)
-6. [Presentation](#presentation)
-7. [Report](#report)
+6. [Results](#results)
+7. [Presentation](#presentation)
 8. [References](#references)
 9. [Licensing](#license)
 
@@ -27,9 +26,18 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 
 # <a name="instructions"></a>
 ## How to Run
+See [web_app readme](https://github.com/justjoshtings/ms.pacman.ai/blob/main/web_app/README.md)
 
 # <a name="structure"></a>
 ## Folder Structure
+1. assets: assets of web-app
+2. GPU script: for training model on GPU machine
+3. logs: logs of web-app
+4. model_building: testing for initial model building
+5. stream_test: testing for streaming service during gameplay
+6. stream_test_react: testing for connecting streaming to react front end
+7. web_app: main web-app directory
+8. web_app_test: testing for web-app
 
 # <a name="background"></a>
 ## Background and Related Works
@@ -38,21 +46,26 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 * Schrittwieser et al. 2020 Mastering Atari, Go, chess and shogi by planning with a learned model<sup>12</sup>
 * MuZero: Mastering Go, Chess, Shogi, and Atari without Rules, DeepMind Blog Post 2020<sup>13</sup>
 
-# <a name="topic_proposal"></a>
-## Topic Proposal
-
 # <a name="architecture"></a>
 ## Architecture
-#### Application Architecture
 
 #### Learning Network Architecture
+![DQN-architecture](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/DQN_architecture.png)
+#### Streaming Service Architecture
+![streaming-architecture](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/streaming_architecture.png)
+#### Web-App Architecture
+![web-app-architecture](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/web_app_architecture.png)
+#### Cloud Architecture
+![cloud-architecture](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/Cloud_architecture.png)
+# <a name="results"></a>
+## Results
+
+![gameresults_1](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/gameresults_1.png)
+![gameresults_2](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/architecture/gameresults_2.png)
 
 # <a name="presentation"></a>
 ## Presentation
-
-# <a name="report"></a>
-## Report
-
+[Google Slide Presentation](https://docs.google.com/presentation/d/1lLTH2cRfMQij-Yyh8kd9iWwK3bEgYDN4M8Zy29MZSV8/edit?usp=sharing)
 # <a name="references"></a>
 ## References
 1. [OpenAI Gym](https://github.com/openai/gym)
