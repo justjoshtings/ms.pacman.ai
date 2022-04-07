@@ -122,5 +122,5 @@ if __name__ == "__main__":
     print('Running App')
     from waitress import serve
     someport = 8080
-    serve(app, host="0.0.0.0", port=someport)
+    serve(app, host="0.0.0.0", port=someport, threads=8)
     # app.run(host = '0.0.0.0', port = someport, debug = True, threaded = True)
