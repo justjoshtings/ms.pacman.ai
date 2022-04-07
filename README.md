@@ -1,4 +1,4 @@
-#ms.pacman.ai - Group3
+# ms.pacman.ai - Group3
 ## George Washington University, Cloud Computing - DATS6450, Spring 2022
 
 ![pacman](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/pacman_demo.gif)
@@ -26,6 +26,7 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 
 # <a name="instructions"></a>
 ## How to Run
+
 See [web_app readme](web_app/README.md)
 
 # <a name="structure"></a>
