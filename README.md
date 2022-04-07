@@ -27,7 +27,8 @@ Train an AI agent to play Ms. Pacman from Atari 2600.
 # <a name="instructions"></a>
 ## How to Run
 
-See [web_app README.](https://github.com/justjoshtings/ms.pacman.ai/tree/main/web_app#setup)
+See [web_app README.](./web_app/README.md#setup)
+
 # <a name="structure"></a>
 ## Folder Structure
 1. assets: assets of web-app
