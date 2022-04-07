@@ -24,6 +24,7 @@
 18. **mysql_config.txt**: Enter your mysql db password here in order to connect.
 19. **test_sql.py**: To test connection to mysql db is working correctly. Should return data from stats_table.
 
+# <a name="setup"></a>
 ## Setup
 #### Model Inference Server
 Create new machine (Ubuntu) and clone repo. Ensure machine have open inbound/outbound ports for desired TCP/IP port ranges for transmitting live-stream to web server. 
