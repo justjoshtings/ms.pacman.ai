@@ -3,7 +3,7 @@
 
 ![pacman](https://github.com/justjoshtings/ms.pacman.ai/blob/main/assets/pacman_demo.gif)
 
-[See Live Demo Here!]()
+[See Live Demo Here!](http://3.94.77.44:8080)
 
 # Project Description
 Train an AI agent to play Ms. Pacman from Atari 2600.
